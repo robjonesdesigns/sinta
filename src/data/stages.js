@@ -5,6 +5,7 @@ import {
   MessageSquare,
   ClipboardCheck,
   Monitor,
+  FileText,
 } from 'lucide-react'
 
 export const stageTypes = [
@@ -50,6 +51,13 @@ export const stageTypes = [
     color: 'var(--color-primary)',
     defaultDuration: 60,
   },
+  {
+    id: 'case-study',
+    label: 'Case Study',
+    icon: FileText,
+    color: 'var(--color-primary)',
+    defaultDuration: 60,
+  },
 ]
 
 export function getStageType(typeId) {
@@ -62,6 +70,7 @@ export function createStageInstance(typeId) {
   const type = getStageType(typeId)
   if (!type) return null
   _stageCounter += 1
+
   return {
     instanceId: `${typeId}-${_stageCounter}`,
     typeId,
@@ -69,6 +78,7 @@ export function createStageInstance(typeId) {
     interviewers: [],
     questionSet: null,
     scorecard: null,
+    competencies: [],
     configured: false,
   }
 }
@@ -98,16 +108,36 @@ export const templates = [
   {
     id: 'standard',
     label: 'Standard Engineering',
-    stages: ['screening', 'single', 'panel'],
+    stages: ['screening', 'single', 'panel', 'debrief'],
+  },
+  {
+    id: 'sre-reliability',
+    label: 'SRE / Reliability',
+    stages: ['screening', 'single', 'assessment', 'panel', 'debrief'],
+  },
+  {
+    id: 'product-strategy',
+    label: 'Product Management',
+    stages: ['screening', 'single', 'presentation', 'panel', 'debrief'],
+  },
+  {
+    id: 'ux-design',
+    label: 'UX / Product Design',
+    stages: ['screening', 'presentation', 'panel', 'debrief'],
+  },
+  {
+    id: 'customer-success',
+    label: 'Customer Success',
+    stages: ['screening', 'single', 'assessment', 'debrief'],
+  },
+  {
+    id: 'qa-automation',
+    label: 'QA / Automation',
+    stages: ['screening', 'assessment', 'single', 'debrief'],
   },
   {
     id: 'executive',
     label: 'Executive Hire',
     stages: ['screening', 'single', 'panel', 'presentation', 'debrief'],
-  },
-  {
-    id: 'quick',
-    label: 'Quick Screen',
-    stages: ['screening', 'single'],
   },
 ]

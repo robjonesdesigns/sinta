@@ -4,6 +4,7 @@ import { getStageType } from '../../data/stages'
 import InterviewerPicker from './InterviewerPicker'
 import DurationPicker from './DurationPicker'
 import SelectPicker from './SelectPicker'
+import CompetencyPicker from './CompetencyPicker'
 
 const questionSetOptions = [
   {
@@ -46,7 +47,7 @@ const scorecardOptions = [
   },
 ]
 
-export default function ConfigDrawer({ stage, onClose, onUpdate }) {
+export default function ConfigDrawer({ stage, onClose, onUpdate, variant = 'drawer' }) {
   const type = getStageType(stage.typeId)
   if (!type) return null
   const Icon = type.icon
@@ -73,6 +74,20 @@ export default function ConfigDrawer({ stage, onClose, onUpdate }) {
     })
   }
 
+  function handleAddCompetency(id) {
+    onUpdate({
+      ...stage,
+      competencies: [...(stage.competencies || []), id]
+    })
+  }
+
+  function handleRemoveCompetency(id) {
+    onUpdate({
+      ...stage,
+      competencies: (stage.competencies || []).filter(c => c !== id)
+    })
+  }
+
   function handleQuestionSetChange(value) {
     onUpdate({ ...stage, questionSet: value })
   }
@@ -81,8 +96,10 @@ export default function ConfigDrawer({ stage, onClose, onUpdate }) {
     onUpdate({ ...stage, scorecard: value })
   }
 
+  const isEmbedded = variant === 'embedded'
+
   return (
-    <div className="config-drawer">
+    <div className={isEmbedded ? 'bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl overflow-hidden' : 'config-drawer'}>
       <div className="config-drawer-header">
         <div className="flex items-center gap-12">
           <div
@@ -91,57 +108,77 @@ export default function ConfigDrawer({ stage, onClose, onUpdate }) {
           >
             <Icon size={18} style={{ color: type.color }} strokeWidth={1.75} />
           </div>
-          <h3 className="text-[var(--font-size-md)] font-semibold">
-            {type.label}
-          </h3>
+          <div>
+            <h3 className="text-[var(--font-size-md)] font-semibold leading-none">
+              {type.label}
+            </h3>
+            <p className="type-meta mt-4">Configure stage anatomy</p>
+          </div>
         </div>
-        <button
-          onClick={onClose}
-          className="btn-ghost p-6 rounded-md"
-          aria-label="Close configuration"
-        >
-          <X size={16} />
-        </button>
+        {!isEmbedded && (
+          <button
+            onClick={onClose}
+            className="btn-ghost p-6 rounded-md"
+            aria-label="Close configuration"
+          >
+            <X size={16} />
+          </button>
+        )}
       </div>
 
       <div className="config-drawer-body">
-        <div>
-          <p className="config-field-label">Duration</p>
-          <DurationPicker
-            value={stage.duration}
-            onChange={handleDurationChange}
-          />
-        </div>
+        <div className="grid grid-cols-1 gap-24">
+          <section>
+            <p className="config-field-label">Duration & Timing</p>
+            <DurationPicker
+              value={stage.duration}
+              onChange={handleDurationChange}
+            />
+          </section>
 
-        <div>
-          <p className="config-field-label">Interviewers</p>
-          <InterviewerPicker
-            assigned={stage.interviewers}
-            onAdd={handleAddInterviewer}
-            onRemove={handleRemoveInterviewer}
-          />
-        </div>
+          <section>
+            <p className="config-field-label">Interviewers</p>
+            <p className="type-meta mb-12">Assign team members to this stage.</p>
+            <InterviewerPicker
+              assigned={stage.interviewers}
+              onAdd={handleAddInterviewer}
+              onRemove={handleRemoveInterviewer}
+            />
+          </section>
 
-        <div>
-          <p className="config-field-label">Question Set</p>
-          <SelectPicker
-            value={stage.questionSet}
-            onChange={handleQuestionSetChange}
-            options={questionSetOptions}
-            placeholder="Select question set"
-            icon={FileText}
-          />
-        </div>
+          <section>
+            <p className="config-field-label">Competency Signals</p>
+            <p className="type-meta mb-12">Signals this stage is responsible for evaluating.</p>
+            <CompetencyPicker
+              assignedIds={stage.competencies || []}
+              onAdd={handleAddCompetency}
+              onRemove={handleRemoveCompetency}
+            />
+          </section>
 
-        <div>
-          <p className="config-field-label">Scorecard Template</p>
-          <SelectPicker
-            value={stage.scorecard}
-            onChange={handleScorecardChange}
-            options={scorecardOptions}
-            placeholder="Select scorecard"
-            icon={ClipboardList}
-          />
+          <section className="grid grid-cols-1 gap-16 pt-8 border-t border-[var(--color-border-subtle)]">
+            <div>
+              <p className="config-field-label">Question Set</p>
+              <SelectPicker
+                value={stage.questionSet}
+                onChange={handleQuestionSetChange}
+                options={questionSetOptions}
+                placeholder="Select question set"
+                icon={FileText}
+              />
+            </div>
+
+            <div>
+              <p className="config-field-label">Scorecard Template</p>
+              <SelectPicker
+                value={stage.scorecard}
+                onChange={handleScorecardChange}
+                options={scorecardOptions}
+                placeholder="Select scorecard"
+                icon={ClipboardList}
+              />
+            </div>
+          </section>
         </div>
       </div>
     </div>
