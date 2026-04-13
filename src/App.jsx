@@ -7,6 +7,7 @@ import Interview from './pages/Interview'
 import Review from './pages/Review'
 import Scorecard from './pages/Scorecard'
 import Candidates from './pages/Candidates'
+import DesignSystem from './pages/DesignSystem'
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
           <Route path="review" element={<Review />} />
           <Route path="scorecard" element={<Scorecard />} />
           <Route path="candidates" element={<Candidates />} />
+          <Route path="design-system" element={<DesignSystem />} />
         </Route>
       </Routes>
     </BrowserRouter>

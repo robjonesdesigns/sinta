@@ -9,6 +9,7 @@ import {
   Settings,
   Sun,
   Moon,
+  Palette,
 } from 'lucide-react'
 import { useTheme } from '../../hooks/useTheme'
 
@@ -57,6 +58,10 @@ export default function Sidebar() {
 
       {/* Footer */}
       <div className="border-t border-[var(--color-sidebar-border)] py-8">
+        <Link to="/design-system" className="sidebar-item">
+          <Palette className="sidebar-icon" strokeWidth={1.75} />
+          <span className="sidebar-label">Design System</span>
+        </Link>
         <Link to="/settings" className="sidebar-item">
           <Settings className="sidebar-icon" strokeWidth={1.75} />
           <span className="sidebar-label">Settings</span>
