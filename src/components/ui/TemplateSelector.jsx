@@ -11,26 +11,23 @@ export default function TemplateSelector({ onSelect }) {
           className="template-btn"
         >
           <div className="flex items-center gap-8">
-            <Lightning size={13} className="text-[var(--color-primary)]" weight="regular" />
+            <Lightning size={13} className="text-[var(--color-primary)]" weight="fill" />
             <span className="font-medium">{template.label}</span>
           </div>
-          <div className="flex items-center gap-4 mt-6">
+          <div className="flex items-center gap-6 mt-8">
             {template.stages.map((stageId, i) => {
               const type = getStageType(stageId)
               if (!type) return null
-              const Icon = type.icon
               return (
                 <div
                   key={`${stageId}-${i}`}
-                  className="flex items-center justify-center w-20 h-20 rounded-md"
-                  style={{ background: type.color, opacity: 0.15 }}
+                  className="w-8 h-8 rounded-full"
+                  style={{ background: type.color }}
                   title={type.label}
-                >
-                  <Icon size={11} style={{ color: type.color }} weight="duotone" />
-                </div>
+                />
               )
             })}
-            <span className="text-[var(--font-size-xs)] text-[var(--color-fg-tertiary)] ml-4">
+            <span className="type-meta ml-4">
               {template.stages.length} stages
             </span>
           </div>
