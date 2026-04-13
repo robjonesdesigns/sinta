@@ -40,7 +40,6 @@
 
   /* ── Type Scale ────────────────────────────────────────────── */
   --font-size-xs: 12px;
-  --font-size-sm: 13px;
   --font-size-base: 14px;
   --font-size-md: 16px;
   --font-size-lg: 18px;
@@ -1049,7 +1048,7 @@
     gap: 10px;
     padding: 8px 12px;
     border-radius: var(--radius-md);
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-base);
     font-weight: 500;
     color: var(--color-fg);
     cursor: pointer;
@@ -1098,7 +1097,7 @@
     border: 1px dashed var(--color-border);
     background: none;
     color: var(--color-fg-secondary);
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-base);
     font-weight: 500;
     cursor: pointer;
     transition: border-color var(--transition-fast), color var(--transition-fast);
@@ -1184,7 +1183,7 @@
     justify-content: space-between;
     padding: 8px 12px;
     border-radius: var(--radius-md);
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-base);
     font-weight: 500;
     color: var(--color-fg);
     cursor: pointer;
@@ -1213,7 +1212,7 @@
     background: var(--color-surface);
     cursor: pointer;
     text-align: left;
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-base);
     transition: border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
   }
 

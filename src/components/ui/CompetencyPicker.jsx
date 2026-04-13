@@ -56,7 +56,7 @@ export default function CompetencyPicker({ assignedIds = [], onAdd, onRemove }) 
                     <Icon size={14} weight="fill" />
                   </div>
                   <div className="flex-1 text-left">
-                    <p className="text-[13px] font-medium">{comp.label}</p>
+                    <p className="text-[14px] font-medium">{comp.label}</p>
                     <p className="text-[11px] opacity-60 uppercase tracking-wide">{comp.category}</p>
                   </div>
                 </button>

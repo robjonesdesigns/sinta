@@ -190,7 +190,7 @@ export default function Builder() {
           </div>
 
           {/* Right panel: segmented control (Details / Signals) */}
-          <div className="w-400 flex-shrink-0 sticky top-80">
+          <div className="w-340 xl:w-400 flex-shrink-0 sticky top-80">
             <div className="flex items-center justify-between mb-12">
               <p className="type-label">Stage Anatomy & Config</p>
             </div>
@@ -198,11 +198,11 @@ export default function Builder() {
             {/* Segmented control with sliding indicator */}
             <div className="relative flex p-2 bg-[var(--color-bg-muted)] rounded-lg mb-12">
               <div
-                className="absolute top-2 bottom-2 w-[calc(50%-2px)] bg-[var(--color-surface)] rounded-md shadow-xs transition-transform duration-200 ease-out"
+                className="absolute top-2 bottom-2 w-[calc(50%-2px)] bg-[var(--color-surface-raised)] rounded-md shadow-sm border border-[var(--color-border-subtle)] transition-transform duration-200 ease-out"
                 style={{ transform: rightTab === 'signals' ? 'translateX(calc(100% + 4px))' : 'translateX(0)' }}
               />
               <button
-                className={`relative z-10 flex-1 px-12 py-6 rounded-md text-[13px] font-medium transition-colors ${
+                className={`relative z-10 flex-1 px-12 py-6 rounded-md text-[14px] font-medium transition-colors ${
                   rightTab === 'details'
                     ? 'text-[var(--color-fg-primary)]'
                     : 'text-[var(--color-fg-tertiary)] hover:text-[var(--color-fg-secondary)]'
@@ -212,7 +212,7 @@ export default function Builder() {
                 Details
               </button>
               <button
-                className={`relative z-10 flex-1 px-12 py-6 rounded-md text-[13px] font-medium transition-colors ${
+                className={`relative z-10 flex-1 px-12 py-6 rounded-md text-[14px] font-medium transition-colors ${
                   rightTab === 'signals'
                     ? 'text-[var(--color-fg-primary)]'
                     : 'text-[var(--color-fg-tertiary)] hover:text-[var(--color-fg-secondary)]'

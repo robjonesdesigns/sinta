@@ -17,7 +17,7 @@ export default function SignalMatrix({ stages, onToggleSignal }) {
   return (
     <div className="flex flex-col gap-12">
       {/* Column headers -- stage icons with tooltip */}
-      <div className="grid items-end gap-4" style={{ gridTemplateColumns: `1fr repeat(${stages.length}, 44px)` }}>
+      <div className="grid items-end gap-4" style={{ gridTemplateColumns: `1fr repeat(${stages.length}, minmax(32px, 44px))` }}>
         <div />
         {stages.map((stage, idx) => {
           const type = getStageType(stage.typeId)
@@ -51,7 +51,7 @@ export default function SignalMatrix({ stages, onToggleSignal }) {
                 <div
                   key={signal.id}
                   className="grid items-center gap-4"
-                  style={{ gridTemplateColumns: `1fr repeat(${stages.length}, 44px)` }}
+                  style={{ gridTemplateColumns: `1fr repeat(${stages.length}, minmax(32px, 44px))` }}
                 >
                   {/* Signal badge + coverage count */}
                   <div className="flex items-center gap-8 min-w-0">

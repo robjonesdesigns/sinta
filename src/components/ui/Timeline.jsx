@@ -34,7 +34,7 @@ export default function Timeline({
             <div className="absolute left-0 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-[var(--color-border-strong)]" />
             <div className="absolute right-0 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-[var(--color-border-strong)]" />
           </div>
-          <p className="text-[var(--font-size-sm)]">
+          <p className="text-[var(--font-size-base)]">
             Drag stages here or click to add
           </p>
         </div>

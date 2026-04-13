@@ -33,7 +33,7 @@ export default function StageDetailPanel({ stage, onClose }) {
       <div className="flex flex-col gap-14">
         <div className="flex items-center gap-8">
           <Clock size={14} className="text-[var(--color-fg-tertiary)]" />
-          <span className="text-[var(--font-size-sm)] text-[var(--color-fg-secondary)]">
+          <span className="text-[var(--font-size-base)] text-[var(--color-fg-secondary)]">
             45 min
           </span>
         </div>
@@ -45,7 +45,7 @@ export default function StageDetailPanel({ stage, onClose }) {
               {assignedInterviewer.name.split(' ').map(n => n[0]).join('')}
             </div>
             <div className="flex flex-col">
-              <span className="text-[var(--font-size-sm)] font-medium">
+              <span className="text-[var(--font-size-base)] font-medium">
                 {assignedInterviewer.name}
               </span>
               <span className="text-[var(--font-size-xs)] text-[var(--color-fg-tertiary)]">

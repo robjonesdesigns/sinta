@@ -34,7 +34,7 @@ export default function InterviewerPicker({
               {person.name.split(' ').map((n) => n[0]).join('')}
             </div>
             <div>
-              <p className="text-[var(--font-size-sm)] font-medium leading-tight">
+              <p className="text-[var(--font-size-base)] font-medium leading-tight">
                 {person.name}
               </p>
               <p className="text-[var(--font-size-xs)] text-[var(--color-fg-tertiary)] leading-tight">
@@ -85,7 +85,7 @@ export default function InterviewerPicker({
                     {person.name.split(' ').map((n) => n[0]).join('')}
                   </div>
                   <div>
-                    <p className="text-[var(--font-size-sm)] font-medium leading-tight">
+                    <p className="text-[var(--font-size-base)] font-medium leading-tight">
                       {person.name}
                     </p>
                     <p className="text-[var(--font-size-xs)] text-[var(--color-fg-tertiary)] leading-tight">
