@@ -147,8 +147,8 @@ export default function ConfigDrawer({ stage, onClose, onUpdate, variant = 'draw
           </section>
 
           <section>
-            <p className="config-field-label">Competency Signals</p>
-            <p className="type-meta mb-12">Signals this stage is responsible for evaluating.</p>
+            <p className="config-field-label">Interview Tags</p>
+            <p className="type-meta mb-12">Competencies interviewers can tag in real-time during this stage.</p>
             <CompetencyPicker
               assignedIds={stage.competencies || []}
               onAdd={handleAddCompetency}

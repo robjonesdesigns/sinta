@@ -1,95 +1,51 @@
-import { 
-  Phone, User, Users, MessageSquare, ClipboardCheck, Monitor, 
-  BrainCircuit, Layout, Target, FileText, Zap, ShieldAlert 
+import {
+  BrainCircuit, Code, Layout, Workflow,
+  MessageSquare, Users, ShieldCheck, TrendingUp,
+  Target, Heart, Lightbulb, BarChart3,
+  ShieldAlert
 } from 'lucide-react'
 
 /* ================================================================
-   1. SIGNALS (The "Atomic Signal" definitions)
+   1. COMPETENCIES (Individual interview reaction tags)
    ================================================================ */
-export const signals = [
-  // Technical Signals (EM / SRE)
-  { 
-    id: 'logic-leap', 
-    label: 'Logic Leap', 
-    category: 'Technical', 
-    icon: BrainCircuit, 
-    color: '#67ABA1', 
-    description: 'Ability to troubleshoot cascading failures with intuition.' 
-  },
-  { 
-    id: 'system-design', 
-    label: 'System Design', 
-    category: 'Technical', 
-    icon: Layout, 
-    color: '#67ABA1', 
-    description: 'Scaling complexity without sacrificing reliability.' 
-  },
-  
-  // Product Signals (PM)
-  { 
-    id: 'outcome-focus', 
-    label: 'Outcome Focus', 
-    category: 'Product', 
-    icon: Target, 
-    color: '#FFC802', 
-    description: 'Prioritizing value over features.' 
-  },
-  { 
-    id: 'narrative-clarity', 
-    label: 'Narrative Clarity', 
-    category: 'Product', 
-    icon: FileText, 
-    color: '#FFC802', 
-    description: 'Communicating vision to cross-functional stakeholders.' 
-  },
+export const competencies = [
+  // Technical
+  { id: 'problem-solving', label: 'Problem Solving', category: 'Technical', icon: BrainCircuit, color: 'var(--color-primary)' },
+  { id: 'system-design', label: 'System Design', category: 'Technical', icon: Layout, color: 'var(--color-primary)' },
+  { id: 'code-quality', label: 'Code Quality', category: 'Technical', icon: Code, color: 'var(--color-primary)' },
+  { id: 'domain-expertise', label: 'Domain Expertise', category: 'Technical', icon: Workflow, color: 'var(--color-primary)' },
+  { id: 'analytical-rigor', label: 'Analytical Rigor', category: 'Technical', icon: BarChart3, color: 'var(--color-primary)' },
 
-  // GTM Signals (Sales / Account Exec)
-  { 
-    id: 'objection-pivot', 
-    label: 'Objection Pivot', 
-    category: 'GTM', 
-    icon: Zap, 
-    color: '#ff9823', 
-    description: 'Turning a "No" into a data point for a deeper conversation.' 
-  },
+  // Behavioral
+  { id: 'communication', label: 'Communication', category: 'Behavioral', icon: MessageSquare, color: 'var(--color-warning)' },
+  { id: 'collaboration', label: 'Collaboration', category: 'Behavioral', icon: Users, color: 'var(--color-warning)' },
+  { id: 'leadership', label: 'Leadership', category: 'Behavioral', icon: ShieldCheck, color: 'var(--color-warning)' },
+  { id: 'adaptability', label: 'Adaptability', category: 'Behavioral', icon: TrendingUp, color: 'var(--color-warning)' },
 
-  // Universal Flags
-  { 
-    id: 'red-flag', 
-    label: 'Red Flag', 
-    category: 'Risk', 
-    icon: ShieldAlert, 
-    color: '#cf222e', 
-    description: 'Major concern regarding culture fit or technical integrity.' 
-  }
+  // Values
+  { id: 'culture-alignment', label: 'Culture Alignment', category: 'Values', icon: Heart, color: 'var(--color-success)' },
+  { id: 'growth-mindset', label: 'Growth Mindset', category: 'Values', icon: Lightbulb, color: 'var(--color-success)' },
+  { id: 'ownership', label: 'Ownership', category: 'Values', icon: Target, color: 'var(--color-success)' },
+  { id: 'strategic-thinking', label: 'Strategic Thinking', category: 'Values', icon: Target, color: 'var(--color-success)' },
+
+  // Flags
+  { id: 'red-flag', label: 'Red Flag', category: 'Risk', icon: ShieldAlert, color: 'var(--color-danger)' },
 ]
 
 /* ================================================================
-   2. PERSONA TEMPLATES (Matrix Builder Presets)
+   2. PERSONA TEMPLATES (Builder presets)
    ================================================================ */
 export const personaTemplates = [
   {
     id: 'senior-sre',
     role: 'Senior SRE / Reliability',
-    persona: 'SRE Lead',
     stages: ['screening', 'single', 'assessment', 'panel', 'debrief'],
-    matrix: {
-      'logic-leap': ['assessment', 'panel'],
-      'system-design': ['panel'],
-      'narrative-clarity': ['screening', 'debrief']
-    }
   },
   {
     id: 'product-lead',
     role: 'Lead Product Manager',
-    persona: 'Impact PM',
     stages: ['screening', 'case-study', 'panel', 'debrief'],
-    matrix: {
-      'outcome-focus': ['case-study', 'panel'],
-      'narrative-clarity': ['screening', 'case-study', 'panel'],
-      'logic-leap': ['case-study']
-    }
-  }
+  },
 ]
 
 /* ================================================================
@@ -109,7 +65,7 @@ export const reviewDataset = {
     duration: 3600,
     sentimentMap: Array.from({ length: 60 }, (_, i) => ({
       time: i * 60,
-      score: Math.sin(i / 5) * 0.5 + 0.3, // Mock fluctuation
+      score: Math.sin(i / 5) * 0.5 + 0.3,
       speaker: 'candidate'
     }))
   },
@@ -123,7 +79,7 @@ export const reviewDataset = {
       time: 142,
       speaker: 'Alex Rivera',
       text: "It was actually at my last role. We had a memory leak in a sidecar container that wasn't being throttled properly. It took out the entire US-East node in under 4 minutes.",
-      signals: ['logic-leap', 'narrative-clarity']
+      tags: ['problem-solving', 'communication']
     },
     {
       time: 210,
@@ -134,19 +90,19 @@ export const reviewDataset = {
       time: 225,
       speaker: 'Alex Rivera',
       text: "I didn't try to isolate it initially. I killed the deployment and reverted to the previous known stable version of the cluster. Stability first, then forensics.",
-      signals: ['logic-leap', 'system-design']
+      tags: ['problem-solving', 'system-design']
     }
   ],
   liveTags: [
-    { type: 'logic-leap', time: 142, author: 'Shoaib Knott', note: 'Strong intuition on sidecar throttling.' },
+    { type: 'problem-solving', time: 142, author: 'Shoaib Knott', note: 'Strong intuition on sidecar throttling.' },
     { type: 'system-design', time: 225, author: 'Shoaib Knott', note: 'Understands stability priority vs forensics.' },
     { type: 'red-flag', time: 3100, author: 'Shoaib Knott', note: 'Vague on how he would prevent this in the future.' }
   ],
   scorecard: {
     competencies: [
-      { id: 'logic-leap', rating: 4, feedback: 'Exceptional troubleshooting intuition.' },
+      { id: 'problem-solving', rating: 4, feedback: 'Exceptional troubleshooting intuition.' },
       { id: 'system-design', rating: 5, feedback: 'Deep understanding of distributed systems.' },
-      { id: 'narrative-clarity', rating: 3, feedback: 'Clear, but occasionally gets lost in the weeds.' }
+      { id: 'communication', rating: 3, feedback: 'Clear, but occasionally gets lost in the weeds.' }
     ],
     recommendation: 'Strong Hire'
   }

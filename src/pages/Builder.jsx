@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd'
-import { ArrowRight, Layers, Plus, BrainCircuit } from 'lucide-react'
+import { ArrowRight, Layers, Plus } from 'lucide-react'
 import PageHeader from '../components/layout/PageHeader'
 import FlowStepper from '../components/ui/FlowStepper'
 import StageListCard from '../components/ui/StageListCard'
@@ -9,9 +9,7 @@ import StageConnector, { AddStageButton } from '../components/ui/StageConnector'
 import StageAddPopover from '../components/ui/StageAddPopover'
 import ConfigDrawer from '../components/ui/ConfigDrawer'
 import TemplateSelector from '../components/ui/TemplateSelector'
-import SignalMatrix from '../components/ui/SignalMatrix'
 import { createStageInstance } from '../data/stages'
-import { personaTemplates } from '../data/mock'
 
 export default function Builder() {
   const navigate = useNavigate()
@@ -33,40 +31,9 @@ export default function Builder() {
     setSelectedId(instance.instanceId)
   }, [])
 
-  const toggleSignal = useCallback((stageId, signalId) => {
-    setStages(prev => prev.map(s => {
-      if (s.instanceId !== stageId) return s
-      const competencies = s.competencies || []
-      const nextCompetencies = competencies.includes(signalId)
-        ? competencies.filter(id => id !== signalId)
-        : [...competencies, signalId]
-      return { ...s, competencies: nextCompetencies }
-    }))
-  }, [])
-
-  const loadTemplate = useCallback((templateId) => {
-    // If we get an array of IDs (old way), find the template object
-    const template = typeof templateId === 'string' 
-      ? personaTemplates.find(t => t.id === templateId)
-      : null
-
-    if (template) {
-      const instances = template.stages.map(typeId => {
-        const instance = createStageInstance(typeId)
-        // Apply matrix signals to this instance if they exist
-        const signalsForStage = Object.entries(template.matrix)
-          .filter(([signalId, stageTypes]) => stageTypes.includes(typeId))
-          .map(([signalId]) => signalId)
-        
-        return { ...instance, competencies: signalsForStage }
-      })
-      setStages(instances)
-    } else if (Array.isArray(templateId)) {
-      // Fallback for old simple template structure
-      const instances = templateId.map((id) => createStageInstance(id))
-      setStages(instances.filter(Boolean))
-    }
-    
+  const loadTemplate = useCallback((stageTypeIds) => {
+    const instances = stageTypeIds.map((id) => createStageInstance(id))
+    setStages(instances.filter(Boolean))
     setSelectedId(null)
   }, [])
 
@@ -143,11 +110,11 @@ export default function Builder() {
           <TemplateSelector onSelect={loadTemplate} />
         </div>
 
-        {/* ── Split-Pane Architecture ─────────────────────────────── */}
-        <div className="flex gap-32 items-start">
-          
-          {/* Left: Pipeline Column */}
-          <div className="w-480 flex-shrink-0">
+        {/* ── Pipeline + Config ────────────────────────────────── */}
+        <div className="flex gap-24 items-start">
+
+          {/* Pipeline: takes available space */}
+          <div className="flex-1 min-w-0">
             <div className="flex items-center justify-between mb-12">
               <p className="type-label">Pipeline Architecture</p>
               <span className="type-meta">{stages.length} Stages</span>
@@ -209,60 +176,20 @@ export default function Builder() {
             </div>
           </div>
 
-          {/* Right: Config Anatomy Column */}
-          <div className="flex-1 min-w-320 sticky top-100">
-            <div className="flex items-center justify-between mb-12">
-              <p className="type-label">Stage Anatomy & Config</p>
-              {selectedStage && (
-                <span className="badge badge-primary">{selectedStage.instanceId}</span>
-              )}
-            </div>
-
-            {selectedStage ? (
-              <div className="animate-in">
-                <ConfigDrawer
-                  stage={selectedStage}
-                  onClose={() => setSelectedId(null)}
-                  onUpdate={updateStage}
-                  variant="embedded" // New variant for the split-pane
-                />
+          {/* Config: fixed width, only visible when a stage is selected */}
+          {selectedStage && (
+            <div className="w-400 flex-shrink-0 sticky top-80">
+              <div className="flex items-center justify-between mb-12">
+                <p className="type-label">Stage Config</p>
               </div>
-            ) : (
-              <div className="border-2 border-dashed border-[var(--color-border)] rounded-xl p-64 flex flex-col items-center justify-center text-center gap-12 bg-[var(--color-bg-subtle)]/50">
-                <div className="w-48 h-48 rounded-full bg-[var(--color-bg-muted)] flex items-center justify-center text-[var(--color-fg-tertiary)]">
-                  <ArrowRight size={20} />
-                </div>
-                <div>
-                  <p className="type-body font-medium">Select a stage to configure</p>
-                  <p className="type-meta mt-4 max-w-200">
-                    Define interviewers, question sets, and scorecard criteria.
-                  </p>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* ── Signal Matrix Architecture ─────────────────────────── */}
-        <div className="mt-64 animate-in">
-          <div className="flex flex-col gap-6 mb-24">
-            <div className="flex items-center gap-12">
-              <h2 className="type-section-heading">Signal Coverage Audit</h2>
-              <span className="badge badge-primary gap-6">
-                <BrainCircuit size={12} />
-                Matrix View
-              </span>
+              <ConfigDrawer
+                stage={selectedStage}
+                onClose={() => setSelectedId(null)}
+                onUpdate={updateStage}
+                variant="embedded"
+              />
             </div>
-            <p className="type-body-secondary max-w-640">
-              Map desired competency signals across your interview loop. Sinta will 
-              automatically generate live shortcut buttons for interviewers based on this grid.
-            </p>
-          </div>
-          
-          <SignalMatrix 
-            stages={stages} 
-            onToggleSignal={toggleSignal}
-          />
+          )}
         </div>
 
         {/* Footer Actions */}
