@@ -18,8 +18,7 @@ export default function DesignSystem() {
       <main className="page-content">
         <div className="max-w-960">
           <p className="type-body-secondary mb-32">
-            Living reference for Sinta HR. Satoshi for display, Inter for body.
-            All tokens defined in global.css.
+            Sinta HR design system. Clash Grotesk for display, Inter for body.
           </p>
 
           <ColorSection />
@@ -131,25 +130,25 @@ function TypographySection() {
         <TypeRow
           className="type-display"
           label="type-display"
-          desc="Satoshi 700, 30px, -0.02em"
+          desc="Clash Grotesk 700, 30px, -0.02em"
           sample="Interview Pipeline"
         />
         <TypeRow
           className="type-page-title"
           label="type-page-title"
-          desc="Satoshi 700, 20px, -0.01em"
+          desc="Clash Grotesk 700, 20px, -0.01em"
           sample="Interview Builder"
         />
         <TypeRow
           className="type-section-heading"
           label="type-section-heading"
-          desc="Satoshi 600, 18px"
+          desc="Clash Grotesk 600, 18px"
           sample="Create Interview Template"
         />
         <TypeRow
           className="type-card-title"
           label="type-card-title"
-          desc="Satoshi 600, 14px"
+          desc="Clash Grotesk 600, 14px"
           sample="Screening Call"
         />
         <TypeRow
@@ -167,7 +166,7 @@ function TypographySection() {
         <TypeRow
           className="type-label"
           label="type-label"
-          desc="Satoshi 600, 12px, uppercase"
+          desc="Clash Grotesk 600, 12px, uppercase"
           sample="Duration"
         />
         <TypeRow
@@ -179,7 +178,7 @@ function TypographySection() {
         <TypeRow
           className="type-stat"
           label="type-stat"
-          desc="Satoshi 700, 30px, tabular-nums"
+          desc="Clash Grotesk 700, 30px, tabular-nums"
           sample="48"
         />
         <TypeRow

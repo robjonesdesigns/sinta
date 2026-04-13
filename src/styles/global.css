@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /* ================================================================
-   SINTA HR — Design System
+   SINTA HR -- Design System
    Tailwind v4 · CSS Custom Properties · Dark/Light Mode
    ================================================================ */
 
@@ -62,7 +62,7 @@
 }
 
 /* ================================================================
-   COLOR TOKENS — Light Mode (default)
+   COLOR TOKENS -- Light Mode (default)
    ================================================================ */
 :root {
   --color-bg: #ffffff;
@@ -129,7 +129,7 @@
 }
 
 /* ================================================================
-   COLOR TOKENS — Dark Mode
+   COLOR TOKENS -- Dark Mode
    ================================================================ */
 .dark {
   --color-bg: #111315;

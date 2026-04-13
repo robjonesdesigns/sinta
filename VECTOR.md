@@ -143,8 +143,8 @@ From the original design decision: "The live moment is the moment that can't be 
 - No backend -- static JSON through loader-shaped functions, swappable if commercial
 - No auth -- the app demonstrates the interview flow, not a login screen
 - Same stack as Keytrn and APM (React 19, React Router 7, Vite, Tailwind v4) -- consistency across portfolio
-- Inter font family -- professional, dominant SaaS typeface, no licensing risk
-- Lucide icons -- consistent stroke weight, tree-shakeable, MIT license
+- Clash Grotesk (display) + Inter (body) -- Clash Grotesk for headings and brand personality, Inter for body text and UI. Both free, no licensing risk
+- Phosphor Icons -- multiple weights (fill, duotone, regular), friendlier than Lucide, tree-shakeable, MIT license
 - 8px base border radius -- matches modern SaaS trend (shadcn default), not the 20-40px pills from 2022
 - No new dependencies without justification -- the dep list is intentionally minimal
 

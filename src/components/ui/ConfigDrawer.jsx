@@ -31,17 +31,17 @@ const scorecardOptions = [
   {
     value: 'standard-5',
     label: 'Standard 5-Point',
-    description: 'Rate each competency 1-5 with written feedback',
+    description: 'Rate each signal 1-5 with written feedback',
   },
   {
     value: 'pass-fail',
     label: 'Pass / Fail',
-    description: 'Binary decision per competency',
+    description: 'Binary decision per signal',
   },
   {
-    value: 'competency-matrix',
+    value: 'signal-matrix',
     label: 'Competency Matrix',
-    description: '6 competencies rated across 4 levels',
+    description: '6 signals rated across 4 levels',
   },
 ]
 
@@ -96,7 +96,7 @@ export default function ConfigDrawer({ stage, onClose, onUpdate, variant = 'draw
             <h3 className="text-[var(--font-size-md)] font-semibold leading-none">
               {type.label}
             </h3>
-            <p className="type-meta mt-4">Configure stage anatomy</p>
+            <p className="type-meta mt-4">Configure this stage</p>
           </div>
         </div>
         {!isEmbedded && (
@@ -148,7 +148,7 @@ export default function ConfigDrawer({ stage, onClose, onUpdate, variant = 'draw
                 value={stage.scorecard}
                 onChange={handleScorecardChange}
                 options={scorecardOptions}
-                placeholder="Select scorecard"
+                placeholder="Select scorecard template"
                 icon={ClipboardText}
               />
             </div>

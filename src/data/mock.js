@@ -6,9 +6,9 @@ import {
 } from '@phosphor-icons/react'
 
 /* ================================================================
-   1. COMPETENCIES (Individual interview reaction tags)
+   1. SIGNALS (Live interview reaction tags per category)
    ================================================================ */
-export const competencies = [
+export const signals = [
   // Technical
   { id: 'problem-solving', label: 'Problem Solving', category: 'Technical', icon: Brain, color: 'var(--color-signal-technical)' },
   { id: 'system-design', label: 'System Design', category: 'Technical', icon: Layout, color: 'var(--color-signal-technical)' },
@@ -99,7 +99,7 @@ export const reviewDataset = {
     { type: 'red-flag', time: 3100, author: 'Shoaib Knott', note: 'Vague on how he would prevent this in the future.' }
   ],
   scorecard: {
-    competencies: [
+    signals: [
       { id: 'problem-solving', rating: 4, feedback: 'Exceptional troubleshooting intuition.' },
       { id: 'system-design', rating: 5, feedback: 'Deep understanding of distributed systems.' },
       { id: 'communication', rating: 3, feedback: 'Clear, but occasionally gets lost in the weeds.' }

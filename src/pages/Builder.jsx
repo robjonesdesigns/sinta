@@ -53,7 +53,7 @@ export default function Builder() {
       if (!copy) return prev
       copy.duration = original.duration
       copy.interviewers = [...original.interviewers]
-      copy.competencies = [...(original.competencies || [])]
+      copy.signals = [...(original.signals || [])]
       copy.configured = original.configured
       const next = [...prev]
       next.splice(idx + 1, 0, copy)
@@ -83,12 +83,12 @@ export default function Builder() {
     setStages((prev) =>
       prev.map((s) => {
         if (s.instanceId !== instanceId) return s
-        const has = (s.competencies || []).includes(signalId)
+        const has = (s.signals || []).includes(signalId)
         return {
           ...s,
-          competencies: has
-            ? s.competencies.filter((id) => id !== signalId)
-            : [...(s.competencies || []), signalId],
+          signals: has
+            ? s.signals.filter((id) => id !== signalId)
+            : [...(s.signals || []), signalId],
         }
       })
     )
@@ -129,7 +129,7 @@ export default function Builder() {
           {/* Pipeline: takes available space */}
           <div className="flex-1 min-w-0">
             <div className="flex items-center justify-between mb-12">
-              <p className="type-label">Pipeline Architecture</p>
+              <p className="type-label">Pipeline</p>
               <span className="type-meta">{stages.length} Stages</span>
             </div>
 
@@ -192,7 +192,7 @@ export default function Builder() {
           {/* Right panel: segmented control (Details / Signals) */}
           <div className="w-340 xl:w-400 flex-shrink-0 sticky top-80">
             <div className="flex items-center justify-between mb-12">
-              <p className="type-label">Stage Anatomy & Config</p>
+              <p className="type-label">Stage Configuration</p>
             </div>
 
             {/* Segmented control with sliding indicator */}
@@ -237,7 +237,7 @@ export default function Builder() {
                   <div className="flex flex-col items-center justify-center py-48 text-center gap-8 px-24">
                     <ArrowRight size={28} className="text-[var(--color-fg-tertiary)] opacity-30" />
                     <p className="type-body font-medium">Select a stage to configure</p>
-                    <p className="type-meta">Define interviewers, duration,<br />and scorecard criteria.</p>
+                    <p className="type-meta">Define interviewers, duration,<br />and scorecard template.</p>
                   </div>
                 )
               ) : (
@@ -257,7 +257,7 @@ export default function Builder() {
             disabled={stages.length === 0}
             onClick={() => navigate('/scheduling')}
           >
-            Finalize Pipeline
+            Continue to Scheduling
             <ArrowRight size={16} />
           </button>
         </div>

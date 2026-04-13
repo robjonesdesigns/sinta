@@ -78,7 +78,7 @@ export function createStageInstance(typeId) {
     interviewers: [],
     questionSet: null,
     scorecard: null,
-    competencies: [],
+    signals: [],
     configured: false,
   }
 }

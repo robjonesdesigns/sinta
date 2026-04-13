@@ -1,16 +1,16 @@
 import { Plus, X } from '@phosphor-icons/react'
 import { useState } from 'react'
-import { competencies } from '../../data/mock'
+import { signals } from '../../data/mock'
 
 export default function CompetencyPicker({ assignedIds = [], onAdd, onRemove }) {
   const [showDropdown, setShowDropdown] = useState(false)
-  const available = competencies.filter(c => !assignedIds.includes(c.id))
+  const available = signals.filter(c => !assignedIds.includes(c.id))
 
   return (
     <div className="relative">
       <div className="flex flex-wrap gap-8 mb-12">
         {assignedIds.map(id => {
-          const comp = competencies.find(c => c.id === id)
+          const comp = signals.find(c => c.id === id)
           if (!comp) return null
           const Icon = comp.icon
           return (
