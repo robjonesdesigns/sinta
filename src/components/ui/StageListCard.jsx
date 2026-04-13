@@ -102,7 +102,7 @@ export default function StageListCard({
 function StatusPill({ configured }) {
   if (configured) {
     return (
-      <span className="inline-flex items-center gap-4 px-8 py-2 rounded-full text-[var(--font-size-xs)] font-medium bg-[var(--color-success-subtle)] text-[var(--color-success)]">
+      <span className="inline-flex items-center gap-4 px-8 py-2 rounded-full text-[var(--font-size-xs)] font-medium bg-[var(--color-accent-subtle)] text-[var(--color-accent-hover)]">
         <Check size={11} strokeWidth={2.5} />
         Ready
       </span>

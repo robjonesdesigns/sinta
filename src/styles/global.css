@@ -7,19 +7,11 @@
 
 /* ── Font Faces ──────────────────────────────────────────────── */
 @font-face {
-  font-family: 'Satoshi';
-  src: url('/fonts/Satoshi-Variable.woff2') format('woff2');
-  font-weight: 300 900;
+  font-family: 'Clash Grotesk';
+  src: url('/fonts/ClashGrotesk-Variable.woff2') format('woff2');
+  font-weight: 200 700;
   font-display: swap;
   font-style: normal;
-}
-
-@font-face {
-  font-family: 'Satoshi';
-  src: url('/fonts/Satoshi-VariableItalic.woff2') format('woff2');
-  font-weight: 300 900;
-  font-display: swap;
-  font-style: italic;
 }
 
 @font-face {
@@ -56,7 +48,7 @@
   --font-size-2xl: 24px;
   --font-size-3xl: 30px;
 
-  --font-family-display: "Satoshi", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-family-display: "Clash Grotesk", ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-family-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-family-mono: "JetBrains Mono", ui-monospace, monospace;
 
@@ -92,10 +84,20 @@
   --color-fg-tertiary: #8b95a3;
   --color-fg-inverse: #ffffff;
 
-  --color-primary: #0d7377;
-  --color-primary-hover: #0b6164;
+  --color-primary: #204c53;
+  --color-primary-hover: #1a3f45;
   --color-primary-subtle: #e6f5f5;
   --color-primary-fg: #ffffff;
+
+  --color-accent: #ffc802;
+  --color-accent-hover: #e6b400;
+  --color-accent-subtle: #fff8e1;
+  --color-accent-fg: #1a1d21;
+
+  --color-brand-teal: #67aba1;
+  --color-brand-mint: #a6ded4;
+  --color-brand-mint-subtle: #d4fdf6;
+  --color-brand-amber: #ff9823;
 
   --color-success: #1a7f37;
   --color-success-subtle: #dafbe1;
@@ -106,9 +108,10 @@
 
   --color-sidebar-bg: #f8f9fa;
   --color-sidebar-fg: #5f6b7a;
-  --color-sidebar-fg-active: #1a1d21;
+  --color-sidebar-fg-active: #204c53;
   --color-sidebar-border: #e2e5e9;
   --color-sidebar-hover: #eef0f2;
+  --color-sidebar-active-bar: #ffc802;
 }
 
 /* ================================================================
@@ -133,10 +136,20 @@
   --color-fg-tertiary: #5f6b7a;
   --color-fg-inverse: #1a1d21;
 
-  --color-primary: #2db5b9;
-  --color-primary-hover: #3dc4c8;
+  --color-primary: #67aba1;
+  --color-primary-hover: #7bbfb5;
   --color-primary-subtle: #0d2e2f;
   --color-primary-fg: #111315;
+
+  --color-accent: #ffc802;
+  --color-accent-hover: #ffd633;
+  --color-accent-subtle: #2a2413;
+  --color-accent-fg: #111315;
+
+  --color-brand-teal: #67aba1;
+  --color-brand-mint: #3d7a72;
+  --color-brand-mint-subtle: #1a3331;
+  --color-brand-amber: #ff9823;
 
   --color-success: #3fb950;
   --color-success-subtle: #12261e;
@@ -150,6 +163,7 @@
   --color-sidebar-fg-active: #e6e8eb;
   --color-sidebar-border: #22262a;
   --color-sidebar-hover: #1c1f22;
+  --color-sidebar-active-bar: #ffc802;
 }
 
 /* ================================================================
@@ -389,6 +403,18 @@
     opacity: 0.9;
   }
 
+  .btn-accent {
+    background: var(--color-accent);
+    color: var(--color-accent-fg);
+    border-color: var(--color-accent);
+    font-weight: 600;
+  }
+
+  .btn-accent:hover {
+    background: var(--color-accent-hover);
+    border-color: var(--color-accent-hover);
+  }
+
   .btn-sm {
     padding: 4px 10px;
     font-size: var(--font-size-xs);
@@ -592,6 +618,18 @@
 
   .sidebar-item-active {
     color: var(--color-sidebar-fg-active);
+    position: relative;
+  }
+
+  .sidebar-item-active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    bottom: 8px;
+    width: 3px;
+    border-radius: 0 var(--radius-full) var(--radius-full) 0;
+    background: var(--color-sidebar-active-bar);
   }
 
   .sidebar-icon {
@@ -918,8 +956,8 @@
     align-items: center;
     justify-content: center;
     border-radius: var(--radius-xl);
-    background: var(--color-primary-subtle);
-    color: var(--color-primary);
+    background: var(--color-accent-subtle);
+    color: var(--color-accent);
   }
 
   /* ── Stage Number ─────────────────────────────────────────── */

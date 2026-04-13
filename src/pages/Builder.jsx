@@ -199,6 +199,19 @@ export default function Builder() {
               />
             )}
           </div>
+
+          {/* Footer */}
+          <div className="flex items-center justify-end gap-12 mt-32 pt-16 border-t border-[var(--color-border)]">
+            <button className="btn btn-ghost">Save as draft</button>
+            <button
+              className="btn btn-accent"
+              disabled={stages.length === 0}
+              onClick={() => navigate('/scheduling')}
+            >
+              Continue
+              <ArrowRight size={16} />
+            </button>
+          </div>
         </div>
       </main>
     </>
@@ -219,7 +232,7 @@ function EmptyState({ onAdd, showPopover, onSelect, onClose }) {
         configured with interviewers, questions, and scoring criteria.
       </p>
       <div className="relative mt-8">
-        <button className="btn btn-primary" onClick={onAdd}>
+        <button className="btn btn-accent" onClick={onAdd}>
           <Plus size={16} />
           Add your first stage
         </button>
