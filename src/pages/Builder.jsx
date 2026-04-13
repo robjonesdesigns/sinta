@@ -1,41 +1,93 @@
 import { useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ArrowRight } from 'lucide-react'
+import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd'
+import { ArrowRight, Layers, Plus } from 'lucide-react'
 import PageHeader from '../components/layout/PageHeader'
 import FlowStepper from '../components/ui/FlowStepper'
-import StageCard from '../components/ui/StageCard'
-import Timeline from '../components/ui/Timeline'
-import StageDetailPanel from '../components/ui/StageDetailPanel'
+import StageListCard from '../components/ui/StageListCard'
+import StageConnector, { AddStageButton } from '../components/ui/StageConnector'
+import StageAddPopover from '../components/ui/StageAddPopover'
+import ConfigDrawer from '../components/ui/ConfigDrawer'
 import TemplateSelector from '../components/ui/TemplateSelector'
-import { stageTypes } from '../data/stages'
+import { createStageInstance } from '../data/stages'
 
 export default function Builder() {
   const navigate = useNavigate()
-  const [placedStages, setPlacedStages] = useState([])
-  const [selectedStageIndex, setSelectedStageIndex] = useState(null)
+  const [stages, setStages] = useState([])
+  const [selectedId, setSelectedId] = useState(null)
+  const [showAddPopover, setShowAddPopover] = useState(false)
 
-  const addStage = useCallback((stageId) => {
-    setPlacedStages((prev) => [...prev, stageId])
+  const selectedStage = stages.find((s) => s.instanceId === selectedId)
+
+  const addStage = useCallback((typeId, atIndex) => {
+    const instance = createStageInstance(typeId)
+    if (!instance) return
+    setStages((prev) => {
+      const next = [...prev]
+      const idx = atIndex !== undefined ? atIndex : next.length
+      next.splice(idx, 0, instance)
+      return next
+    })
+    setSelectedId(instance.instanceId)
   }, [])
 
-  const removeStage = useCallback((index) => {
-    setPlacedStages((prev) => prev.filter((_, i) => i !== index))
-    setSelectedStageIndex(null)
+  const removeStage = useCallback((instanceId) => {
+    setStages((prev) => prev.filter((s) => s.instanceId !== instanceId))
+    setSelectedId((prev) => (prev === instanceId ? null : prev))
   }, [])
 
-  const selectStage = useCallback((index) => {
-    setSelectedStageIndex((prev) => (prev === index ? null : index))
+  const duplicateStage = useCallback((instanceId) => {
+    setStages((prev) => {
+      const idx = prev.findIndex((s) => s.instanceId === instanceId)
+      if (idx === -1) return prev
+      const original = prev[idx]
+      const copy = createStageInstance(original.typeId)
+      if (!copy) return prev
+      copy.duration = original.duration
+      copy.interviewers = [...original.interviewers]
+      copy.configured = original.configured
+      const next = [...prev]
+      next.splice(idx + 1, 0, copy)
+      return next
+    })
   }, [])
 
-  const loadTemplate = useCallback((stages) => {
-    setPlacedStages(stages)
-    setSelectedStageIndex(null)
+  const moveStage = useCallback((instanceId, direction) => {
+    setStages((prev) => {
+      const idx = prev.findIndex((s) => s.instanceId === instanceId)
+      const targetIdx = idx + direction
+      if (targetIdx < 0 || targetIdx >= prev.length) return prev
+      const next = [...prev]
+      const [moved] = next.splice(idx, 1)
+      next.splice(targetIdx, 0, moved)
+      return next
+    })
   }, [])
 
-  const selectedStage =
-    selectedStageIndex !== null
-      ? stageTypes.find((s) => s.id === placedStages[selectedStageIndex])
-      : null
+  const updateStage = useCallback((updated) => {
+    setStages((prev) =>
+      prev.map((s) => (s.instanceId === updated.instanceId ? updated : s))
+    )
+  }, [])
+
+  const loadTemplate = useCallback((stageTypeIds) => {
+    const instances = stageTypeIds.map((id) => createStageInstance(id))
+    setStages(instances.filter(Boolean))
+    setSelectedId(null)
+  }, [])
+
+  function handleDragEnd(result) {
+    if (!result.destination) return
+    const from = result.source.index
+    const to = result.destination.index
+    if (from === to) return
+    setStages((prev) => {
+      const next = [...prev]
+      const [moved] = next.splice(from, 1)
+      next.splice(to, 0, moved)
+      return next
+    })
+  }
 
   return (
     <>
@@ -44,69 +96,137 @@ export default function Builder() {
       </PageHeader>
 
       <main className="page-content">
-        <div className="flex flex-col gap-6 mb-20">
-          <h2 className="text-[var(--font-size-lg)] font-semibold">
-            Create Interview Template
-          </h2>
-          <p className="text-[var(--color-fg-secondary)] text-[var(--font-size-base)]">
-            Drag stages into the timeline to build your interview pipeline, or
-            start from a template.
-          </p>
-        </div>
-
-        <div className="mb-16">
-          <TemplateSelector onSelect={loadTemplate} />
-        </div>
-
-        <div className="flex gap-24">
-          {/* Left column: available stages */}
-          <div className="w-280 flex-shrink-0">
-            <p className="section-label mb-10">Stages</p>
-            <div className="flex flex-col gap-6">
-              {stageTypes.map((stage) => (
-                <StageCard
-                  key={stage.id}
-                  stage={stage}
-                  onDragStart={() => {}}
-                  onAdd={addStage}
-                />
-              ))}
-            </div>
+        <div className="builder-container">
+          <div className="flex flex-col gap-6 mb-20">
+            <h2 className="text-[var(--font-size-lg)] font-semibold">
+              Create Interview Template
+            </h2>
+            <p className="text-[var(--color-fg-secondary)]">
+              Build your interview pipeline by adding stages. Click a stage to
+              configure interviewers, questions, and scorecards.
+            </p>
           </div>
 
-          {/* Right column: timeline + detail */}
-          <div className="flex-1 flex flex-col gap-16">
-            <p className="section-label">Timeline</p>
-            <Timeline
-              placedStages={placedStages}
-              onRemoveStage={removeStage}
-              onSelectStage={selectStage}
-              selectedStageIndex={selectedStageIndex}
-              onDrop={addStage}
-            />
+          <div className="mb-16">
+            <TemplateSelector onSelect={loadTemplate} />
+          </div>
+
+          <div className="flex gap-24">
+            <div className="flex-1 min-w-0">
+              {stages.length === 0 ? (
+                <EmptyState
+                  onAdd={() => setShowAddPopover(true)}
+                  showPopover={showAddPopover}
+                  onSelect={(typeId) => {
+                    addStage(typeId)
+                    setShowAddPopover(false)
+                  }}
+                  onClose={() => setShowAddPopover(false)}
+                />
+              ) : (
+                <DragDropContext onDragEnd={handleDragEnd}>
+                  <Droppable droppableId="stage-list">
+                    {(provided) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.droppableProps}
+                        className="flex flex-col"
+                      >
+                        {stages.map((stage, index) => (
+                          <Draggable
+                            key={stage.instanceId}
+                            draggableId={stage.instanceId}
+                            index={index}
+                          >
+                            {(dragProvided, snapshot) => (
+                              <div
+                                ref={dragProvided.innerRef}
+                                {...dragProvided.draggableProps}
+                              >
+                                {index > 0 && !snapshot.isDragging && (
+                                  <StageConnector
+                                    onAddStage={(typeId) =>
+                                      addStage(typeId, index)
+                                    }
+                                  />
+                                )}
+                                <StageListCard
+                                  stage={stage}
+                                  index={index}
+                                  isSelected={
+                                    selectedId === stage.instanceId
+                                  }
+                                  isDragging={snapshot.isDragging}
+                                  onClick={setSelectedId}
+                                  onRemove={() =>
+                                    removeStage(stage.instanceId)
+                                  }
+                                  onDuplicate={() =>
+                                    duplicateStage(stage.instanceId)
+                                  }
+                                  onMoveUp={() =>
+                                    moveStage(stage.instanceId, -1)
+                                  }
+                                  onMoveDown={() =>
+                                    moveStage(stage.instanceId, 1)
+                                  }
+                                  canMoveUp={index > 0}
+                                  canMoveDown={index < stages.length - 1}
+                                  dragHandleProps={
+                                    dragProvided.dragHandleProps
+                                  }
+                                />
+                              </div>
+                            )}
+                          </Draggable>
+                        ))}
+                        {provided.placeholder}
+                        <AddStageButton
+                          onAddStage={(typeId) => addStage(typeId)}
+                        />
+                      </div>
+                    )}
+                  </Droppable>
+                </DragDropContext>
+              )}
+            </div>
 
             {selectedStage && (
-              <StageDetailPanel
+              <ConfigDrawer
                 stage={selectedStage}
-                onClose={() => setSelectedStageIndex(null)}
+                onClose={() => setSelectedId(null)}
+                onUpdate={updateStage}
               />
             )}
           </div>
         </div>
-
-        {/* Footer actions */}
-        <div className="flex items-center justify-end gap-12 mt-32 pt-16 border-t border-[var(--color-border)]">
-          <button className="btn btn-ghost">Save as draft</button>
-          <button
-            className="btn btn-primary"
-            disabled={placedStages.length === 0}
-            onClick={() => navigate('/scheduling')}
-          >
-            Continue
-            <ArrowRight size={16} />
-          </button>
-        </div>
       </main>
     </>
+  )
+}
+
+function EmptyState({ onAdd, showPopover, onSelect, onClose }) {
+  return (
+    <div className="builder-empty">
+      <div className="builder-empty-icon">
+        <Layers size={24} strokeWidth={1.5} />
+      </div>
+      <p className="text-[var(--font-size-md)] font-semibold">
+        No stages yet
+      </p>
+      <p className="text-[var(--font-size-sm)] text-[var(--color-fg-secondary)] max-w-320">
+        Build your interview pipeline by adding stages. Each stage can be
+        configured with interviewers, questions, and scoring criteria.
+      </p>
+      <div className="relative mt-8">
+        <button className="btn btn-primary" onClick={onAdd}>
+          <Plus size={16} />
+          Add your first stage
+        </button>
+        {showPopover && (
+          <StageAddPopover onSelect={onSelect} onClose={onClose} />
+        )}
+      </div>
+    </div>
   )
 }

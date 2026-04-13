@@ -78,11 +78,11 @@
   --color-danger: #cf222e;
   --color-danger-subtle: #ffebe9;
 
-  --color-sidebar-bg: #1a1d21;
-  --color-sidebar-fg: #9ba3ae;
-  --color-sidebar-fg-active: #ffffff;
-  --color-sidebar-border: #2d3139;
-  --color-sidebar-hover: #2d3139;
+  --color-sidebar-bg: #f8f9fa;
+  --color-sidebar-fg: #5f6b7a;
+  --color-sidebar-fg-active: #1a1d21;
+  --color-sidebar-border: #e2e5e9;
+  --color-sidebar-hover: #eef0f2;
 }
 
 /* ================================================================
@@ -520,75 +520,543 @@
     color: var(--color-border);
   }
 
-  /* ── Stage Card (Builder) ────────────────────────────────── */
-  .stage-card {
+  /* ── Stage List Card (Builder v2) ──────────────────────────── */
+  .stage-list-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    padding-left: 14px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-left: 3px solid var(--stage-color, var(--color-border));
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    user-select: none;
+    transition: transform var(--transition-fast), box-shadow var(--transition-base), border-color var(--transition-fast), background var(--transition-fast);
+  }
+
+  .stage-list-card:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--color-border-strong);
+    border-left-color: var(--stage-color, var(--color-border-strong));
+    z-index: 10;
+  }
+
+  .stage-list-card[data-selected="true"] {
+    border-color: var(--color-primary);
+    border-left-color: var(--stage-color, var(--color-primary));
+    box-shadow: 0 0 0 3px var(--color-primary-subtle), var(--shadow-sm);
+    background: var(--color-bg-subtle);
+  }
+
+  .stage-list-card[data-dragging="true"] {
+    opacity: 0.5;
+    box-shadow: var(--shadow-lg);
+    transform: scale(0.98);
+  }
+
+  .stage-list-card .drag-handle {
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+    cursor: grab;
+    flex-shrink: 0;
+    padding: 4px;
+    border-radius: var(--radius-sm);
+  }
+
+  .stage-list-card:hover .drag-handle {
+    opacity: 0.6;
+  }
+
+  .stage-list-card .drag-handle:hover {
+    opacity: 1;
+    background: var(--color-bg-muted);
+  }
+
+  .stage-list-card .drag-handle:active {
+    cursor: grabbing;
+  }
+
+  .stage-list-card .overflow-menu {
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+  }
+
+  .stage-list-card:hover .overflow-menu {
+    opacity: 1;
+  }
+
+  /* Stage icon treatment */
+  .stage-icon-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-lg);
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stage-icon-box::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--stage-color);
+    opacity: 0.12;
+  }
+
+  .stage-icon-box svg {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── Stage Connector ─────────────────────────────────────── */
+  .stage-connector {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 36px;
+  }
+
+  .stage-connector::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 32px;
+    width: 2px;
+    background: var(--color-border);
+    border-radius: var(--radius-full);
+  }
+
+  .stage-connector .add-between-btn {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: var(--radius-full);
+    background: var(--color-bg);
+    border: 1.5px dashed var(--color-border-strong);
+    color: var(--color-fg-tertiary);
+    transition: all var(--transition-fast);
+    cursor: pointer;
+  }
+
+  .stage-connector .add-between-btn:hover {
+    border-color: var(--color-primary);
+    border-style: solid;
+    color: var(--color-primary-fg);
+    background: var(--color-primary);
+    transform: scale(1.15);
+    box-shadow: 0 0 0 4px var(--color-primary-subtle);
+  }
+
+  /* ── Stage Add Popover ───────────────────────────────────── */
+  .stage-popover {
+    position: absolute;
+    z-index: 50;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 100%;
+    margin-top: 8px;
+    background: var(--color-surface-overlay);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.06);
+    padding: 6px;
+    min-width: 240px;
+    animation: popoverIn var(--transition-base) cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes popoverIn {
+    from {
+      opacity: 0;
+      transform: translateX(-50%) translateY(-4px) scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0) scale(1);
+    }
+  }
+
+  .stage-popover-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: var(--radius-lg);
+    font-size: var(--font-size-base);
+    font-weight: 500;
+    color: var(--color-fg);
+    cursor: pointer;
+    transition: background var(--transition-fast);
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+  }
+
+  .stage-popover-item:hover {
+    background: var(--color-bg-muted);
+  }
+
+  /* ── Config Drawer ───────────────────────────────────────── */
+  .config-drawer {
+    width: 360px;
+    flex-shrink: 0;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    overflow: visible;
+    box-shadow: var(--shadow-lg);
+    animation: drawerSlideIn var(--transition-base) cubic-bezier(0.16, 1, 0.3, 1);
+    align-self: flex-start;
+  }
+
+  @keyframes drawerSlideIn {
+    from {
+      opacity: 0;
+      transform: translateX(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .config-drawer-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 12px;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    cursor: pointer;
-    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
-    user-select: none;
+    padding: 20px;
+    border-bottom: 1px solid var(--color-border);
   }
 
-  .stage-card:hover {
-    border-color: var(--color-border-strong);
-    box-shadow: var(--shadow-xs);
-  }
-
-  .stage-card:active {
-    box-shadow: var(--shadow-sm);
-  }
-
-  /* ── Timeline ────────────────────────────────────────────── */
-  .timeline-dropzone {
+  .config-drawer-body {
+    padding: 20px;
     display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .config-field-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--color-fg-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-bottom: 8px;
+  }
+
+  /* ── Drop Indicator ──────────────────────────────────────── */
+  .drop-indicator {
+    height: 2px;
+    background: var(--color-primary);
+    border-radius: var(--radius-full);
+    margin: -1px 0;
+    animation: fadeIn 100ms ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* ── Builder Empty State ─────────────────────────────────── */
+  .builder-empty {
+    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 160px;
-    padding: 24px;
-    background: var(--color-bg-subtle);
+    padding: 64px 32px;
     border: 2px dashed var(--color-border);
     border-radius: var(--radius-xl);
-    transition: border-color var(--transition-fast), background var(--transition-fast);
+    text-align: center;
+    gap: 12px;
+    background: var(--color-bg-subtle);
   }
 
-  .timeline-dropzone[data-empty="false"] {
-    border-style: solid;
-    border-color: var(--color-border-subtle);
-    background: var(--color-surface);
-  }
-
-  .timeline-dropzone:hover {
-    border-color: var(--color-primary);
-  }
-
-  /* ── Timeline Node ───────────────────────────────────────── */
-  .timeline-node {
+  .builder-empty-icon {
+    width: 56px;
+    height: 56px;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    border-radius: var(--radius-xl);
+    background: var(--color-primary-subtle);
+    color: var(--color-primary);
+  }
+
+  /* ── Stage Number ─────────────────────────────────────────── */
+  .stage-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: var(--radius-full);
+    background: var(--color-bg-muted);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--color-fg-tertiary);
+    flex-shrink: 0;
+  }
+
+  /* ── Avatar Initials ─────────────────────────────────────── */
+  .avatar-initials {
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-full);
+    background: var(--color-primary);
+    color: var(--color-primary-fg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    flex-shrink: 0;
+    border: 2px solid var(--color-surface);
+  }
+
+  .avatar-initials-sm {
+    width: 24px;
+    height: 24px;
+    font-size: 10px;
+  }
+
+  /* ── Overflow Dropdown ───────────────────────────────────── */
+  .overflow-dropdown {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    margin-top: 4px;
+    z-index: 100;
+    background: var(--color-surface-overlay);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
-    background: var(--node-color);
-    border: 2px solid transparent;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.06);
+    padding: 4px;
+    min-width: 160px;
+    animation: popoverIn var(--transition-fast) cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .overflow-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--color-fg);
     cursor: pointer;
-    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    transition: background var(--transition-fast);
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
   }
 
-  .timeline-node:hover {
-    transform: scale(1.1);
-    box-shadow: var(--shadow-md);
+  .overflow-dropdown-item:hover {
+    background: var(--color-bg-muted);
   }
 
-  .timeline-node-selected {
-    border-color: var(--color-fg);
-    box-shadow: var(--shadow-md);
-    transform: scale(1.1);
+  .overflow-dropdown-item-danger {
+    color: var(--color-danger);
+  }
+
+  .overflow-dropdown-item-danger:hover {
+    background: var(--color-danger-subtle);
+  }
+
+  /* ── Interviewer Picker ──────────────────────────────────── */
+  .interviewer-chip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 10px;
+    border-radius: var(--radius-lg);
+    background: var(--color-bg-subtle);
+    border: 1px solid var(--color-border-subtle);
+    transition: border-color var(--transition-fast);
+  }
+
+  .interviewer-chip:hover {
+    border-color: var(--color-border);
+  }
+
+  .interviewer-add-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: var(--radius-lg);
+    border: 1px dashed var(--color-border);
+    background: none;
+    color: var(--color-fg-secondary);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition: border-color var(--transition-fast), color var(--transition-fast);
+  }
+
+  .interviewer-add-btn:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  .interviewer-dropdown {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    margin-top: 4px;
+    z-index: 50;
+    background: var(--color-surface-overlay);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.06);
+    padding: 4px;
+    animation: popoverIn var(--transition-fast) cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .interviewer-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: background var(--transition-fast);
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+  }
+
+  .interviewer-dropdown-item:hover {
+    background: var(--color-bg-muted);
+  }
+
+  /* ── Duration Picker ──────────────────────────────────────── */
+  .duration-picker-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 8px 12px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-fg);
+    font-size: var(--font-size-base);
+    font-weight: 500;
+    cursor: pointer;
+    transition: border-color var(--transition-fast);
+  }
+
+  .duration-picker-btn:hover {
+    border-color: var(--color-border-strong);
+  }
+
+  .duration-dropdown {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    margin-top: 4px;
+    z-index: 50;
+    background: var(--color-surface-overlay);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.06);
+    padding: 4px;
+    animation: popoverIn var(--transition-fast) cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .duration-dropdown-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--color-fg);
+    cursor: pointer;
+    transition: background var(--transition-fast);
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+  }
+
+  .duration-dropdown-item:hover {
+    background: var(--color-bg-muted);
+  }
+
+  .duration-dropdown-item-active {
+    color: var(--color-primary);
+  }
+
+  /* ── Template Button ─────────────────────────────────────── */
+  .template-btn {
+    display: flex;
+    flex-direction: column;
+    padding: 12px 16px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    cursor: pointer;
+    text-align: left;
+    font-size: var(--font-size-sm);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
+  }
+
+  .template-btn:hover {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--color-primary-subtle);
+    transform: translateY(-1px);
+  }
+
+  /* ── Builder Container ───────────────────────────────────── */
+  .builder-container {
+    max-width: none;
+  }
+
+  /* ── Add Stage (dashed bottom button) ────────────────────── */
+  .add-stage-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 14px;
+    margin-top: 8px;
+    border: 2px dashed var(--color-border);
+    border-radius: var(--radius-lg);
+    background: none;
+    color: var(--color-fg-tertiary);
+    font-size: var(--font-size-base);
+    font-weight: 500;
+    cursor: pointer;
+    transition: border-color var(--transition-fast), color var(--transition-fast), background var(--transition-fast);
+  }
+
+  .add-stage-btn:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+    background: var(--color-primary-subtle);
   }
 
   /* ── Stepper ─────────────────────────────────────────────── */
