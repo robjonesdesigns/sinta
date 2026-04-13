@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd'
 import { ArrowRight, Stack, Plus } from '@phosphor-icons/react'
@@ -14,10 +14,19 @@ import { createStageInstance } from '../data/stages'
 
 export default function Builder() {
   const navigate = useNavigate()
-  const [stages, setStages] = useState([])
+  const [stages, setStages] = useState(() => {
+    try {
+      const saved = localStorage.getItem('sinta-builder-stages')
+      return saved ? JSON.parse(saved) : []
+    } catch { return [] }
+  })
   const [selectedId, setSelectedId] = useState(null)
   const [showAddPopover, setShowAddPopover] = useState(false)
   const [rightTab, setRightTab] = useState('details')
+
+  useEffect(() => {
+    try { localStorage.setItem('sinta-builder-stages', JSON.stringify(stages)) } catch {}
+  }, [stages])
 
   const selectedStage = stages.find((s) => s.instanceId === selectedId)
 
