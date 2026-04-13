@@ -5,7 +5,7 @@ import { getStageType } from '../../data/stages'
 export default function SignalMatrix({ stages, onToggleSignal }) {
   if (stages.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-48 text-center gap-8">
+      <div className="flex flex-col items-center justify-center py-48 text-center gap-8 px-24">
         <p className="type-body font-medium">Signals map to stages</p>
         <p className="type-meta">Add stages to the pipeline first,<br />then assign signals here.</p>
       </div>
