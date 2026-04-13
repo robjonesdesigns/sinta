@@ -235,7 +235,6 @@ export default function Builder() {
                   />
                 ) : (
                   <div className="flex flex-col items-center justify-center py-48 text-center gap-8 px-24">
-                    <ArrowRight size={28} className="text-[var(--color-fg-tertiary)] opacity-30" />
                     <p className="type-body font-medium">Select a stage to configure</p>
                     <p className="type-meta">Define interviewers, duration,<br />and scorecard template.</p>
                   </div>
