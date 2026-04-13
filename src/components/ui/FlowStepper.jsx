@@ -1,4 +1,4 @@
-import { Check } from 'lucide-react'
+import { Check } from '@phosphor-icons/react'
 
 const steps = [
   { id: 'build', label: 'Build Template' },
@@ -37,7 +37,7 @@ export default function FlowStepper({ currentStep }) {
                 data-state={isComplete ? 'complete' : isCurrent ? 'current' : 'future'}
               >
                 {isComplete ? (
-                  <Check size={12} strokeWidth={3} />
+                  <Check size={12} weight="bold" />
                 ) : (
                   <span>{i + 1}</span>
                 )}

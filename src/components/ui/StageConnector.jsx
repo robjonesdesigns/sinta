@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Plus } from 'lucide-react'
+import { Plus } from '@phosphor-icons/react'
 import StageAddPopover from './StageAddPopover'
 
 export default function StageConnector({ onAddStage, isLast }) {
@@ -13,7 +13,7 @@ export default function StageConnector({ onAddStage, isLast }) {
         aria-label="Add stage here"
         title="Add stage"
       >
-        <Plus size={14} strokeWidth={2.5} />
+        <Plus size={14} weight="bold" />
       </button>
       {showPopover && (
         <StageAddPopover
@@ -34,7 +34,7 @@ export function AddStageButton({ onAddStage }) {
         className="add-stage-btn"
         onClick={() => setShowPopover(true)}
       >
-        <Plus size={16} strokeWidth={2} />
+        <Plus size={16} weight="regular" />
         Add stage
       </button>
       {showPopover && (

@@ -1,35 +1,35 @@
 import {
-  BrainCircuit, Code, Layout, Workflow,
-  MessageSquare, Users, ShieldCheck, TrendingUp,
-  Target, Heart, Lightbulb, BarChart3,
-  ShieldAlert
-} from 'lucide-react'
+  Brain, Code, Layout, FlowArrow,
+  ChatCircle, Users, ShieldCheck, TrendUp,
+  Target, Heart, Lightbulb, ChartBar,
+  ShieldWarning
+} from '@phosphor-icons/react'
 
 /* ================================================================
    1. COMPETENCIES (Individual interview reaction tags)
    ================================================================ */
 export const competencies = [
   // Technical
-  { id: 'problem-solving', label: 'Problem Solving', category: 'Technical', icon: BrainCircuit, color: 'var(--color-primary)' },
-  { id: 'system-design', label: 'System Design', category: 'Technical', icon: Layout, color: 'var(--color-primary)' },
-  { id: 'code-quality', label: 'Code Quality', category: 'Technical', icon: Code, color: 'var(--color-primary)' },
-  { id: 'domain-expertise', label: 'Domain Expertise', category: 'Technical', icon: Workflow, color: 'var(--color-primary)' },
-  { id: 'analytical-rigor', label: 'Analytical Rigor', category: 'Technical', icon: BarChart3, color: 'var(--color-primary)' },
+  { id: 'problem-solving', label: 'Problem Solving', category: 'Technical', icon: Brain, color: 'var(--color-signal-technical)' },
+  { id: 'system-design', label: 'System Design', category: 'Technical', icon: Layout, color: 'var(--color-signal-technical)' },
+  { id: 'code-quality', label: 'Code Quality', category: 'Technical', icon: Code, color: 'var(--color-signal-technical)' },
+  { id: 'domain-expertise', label: 'Domain Expertise', category: 'Technical', icon: FlowArrow, color: 'var(--color-signal-technical)' },
+  { id: 'analytical-rigor', label: 'Analytical Rigor', category: 'Technical', icon: ChartBar, color: 'var(--color-signal-technical)' },
 
   // Behavioral
-  { id: 'communication', label: 'Communication', category: 'Behavioral', icon: MessageSquare, color: 'var(--color-warning)' },
-  { id: 'collaboration', label: 'Collaboration', category: 'Behavioral', icon: Users, color: 'var(--color-warning)' },
-  { id: 'leadership', label: 'Leadership', category: 'Behavioral', icon: ShieldCheck, color: 'var(--color-warning)' },
-  { id: 'adaptability', label: 'Adaptability', category: 'Behavioral', icon: TrendingUp, color: 'var(--color-warning)' },
+  { id: 'communication', label: 'Communication', category: 'Behavioral', icon: ChatCircle, color: 'var(--color-signal-behavioral)' },
+  { id: 'collaboration', label: 'Collaboration', category: 'Behavioral', icon: Users, color: 'var(--color-signal-behavioral)' },
+  { id: 'leadership', label: 'Leadership', category: 'Behavioral', icon: ShieldCheck, color: 'var(--color-signal-behavioral)' },
+  { id: 'adaptability', label: 'Adaptability', category: 'Behavioral', icon: TrendUp, color: 'var(--color-signal-behavioral)' },
 
   // Values
-  { id: 'culture-alignment', label: 'Culture Alignment', category: 'Values', icon: Heart, color: 'var(--color-success)' },
-  { id: 'growth-mindset', label: 'Growth Mindset', category: 'Values', icon: Lightbulb, color: 'var(--color-success)' },
-  { id: 'ownership', label: 'Ownership', category: 'Values', icon: Target, color: 'var(--color-success)' },
-  { id: 'strategic-thinking', label: 'Strategic Thinking', category: 'Values', icon: Target, color: 'var(--color-success)' },
+  { id: 'culture-alignment', label: 'Culture Alignment', category: 'Values', icon: Heart, color: 'var(--color-signal-values)' },
+  { id: 'growth-mindset', label: 'Growth Mindset', category: 'Values', icon: Lightbulb, color: 'var(--color-signal-values)' },
+  { id: 'ownership', label: 'Ownership', category: 'Values', icon: Target, color: 'var(--color-signal-values)' },
+  { id: 'strategic-thinking', label: 'Strategic Thinking', category: 'Values', icon: Target, color: 'var(--color-signal-values)' },
 
   // Flags
-  { id: 'red-flag', label: 'Red Flag', category: 'Risk', icon: ShieldAlert, color: 'var(--color-danger)' },
+  { id: 'red-flag', label: 'Red Flag', category: 'Risk', icon: ShieldWarning, color: 'var(--color-signal-risk)' },
 ]
 
 /* ================================================================

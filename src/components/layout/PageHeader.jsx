@@ -1,4 +1,4 @@
-import { Search } from 'lucide-react'
+import { MagnifyingGlass } from '@phosphor-icons/react'
 
 export default function PageHeader({ title, children }) {
   return (
@@ -6,10 +6,10 @@ export default function PageHeader({ title, children }) {
       <h1 className="type-page-title">{title}</h1>
       <div className="flex items-center gap-12">
         <div className="relative">
-          <Search
+          <MagnifyingGlass
             className="absolute left-10 top-1/2 -translate-y-1/2 text-[var(--color-fg-tertiary)]"
             size={16}
-            strokeWidth={1.75}
+            weight="regular"
           />
           <input
             type="search"

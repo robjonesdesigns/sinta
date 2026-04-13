@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from 'react'
 import {
-  MoreHorizontal,
+  DotsThree,
   Copy,
-  Trash2,
-  ChevronUp,
-  ChevronDown,
-} from 'lucide-react'
+  Trash,
+  CaretUp,
+  CaretDown,
+} from '@phosphor-icons/react'
 
 export default function StageOverflowMenu({
   onDuplicate,
@@ -44,21 +44,21 @@ export default function StageOverflowMenu({
         }}
         aria-label="Stage options"
       >
-        <MoreHorizontal size={16} className="text-[var(--color-fg-tertiary)]" />
+        <DotsThree size={16} weight="regular" className="text-[var(--color-fg-tertiary)]" />
       </button>
 
       {open && (
         <div className="overflow-dropdown" role="menu">
           {canMoveUp && (
             <OverflowItem
-              icon={ChevronUp}
+              icon={CaretUp}
               label="Move up"
               onClick={() => { onMoveUp(); setOpen(false) }}
             />
           )}
           {canMoveDown && (
             <OverflowItem
-              icon={ChevronDown}
+              icon={CaretDown}
               label="Move down"
               onClick={() => { onMoveDown(); setOpen(false) }}
             />
@@ -70,7 +70,7 @@ export default function StageOverflowMenu({
           />
           <div className="divider-h my-4" />
           <OverflowItem
-            icon={Trash2}
+            icon={Trash}
             label="Delete"
             danger
             onClick={() => { onDelete(); setOpen(false) }}
@@ -91,7 +91,7 @@ function OverflowItem({ icon: Icon, label, onClick, danger }) {
         onClick()
       }}
     >
-      <Icon size={14} strokeWidth={1.75} />
+      <Icon size={14} weight="regular" />
       <span>{label}</span>
     </button>
   )

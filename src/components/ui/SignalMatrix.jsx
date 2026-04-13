@@ -1,87 +1,116 @@
-import { Check, Plus, Minus, Info } from 'lucide-react'
-import { signals as allSignals } from '../../data/mock'
+import { Check } from '@phosphor-icons/react'
+import { competencies } from '../../data/mock'
+import { getStageType } from '../../data/stages'
 
 export default function SignalMatrix({ stages, onToggleSignal }) {
-  return (
-    <div className="overflow-x-auto border border-[var(--color-border)] rounded-xl bg-[var(--color-bg-subtle)]">
-      <table className="w-full border-collapse">
-        <thead>
-          <tr>
-            <th className="p-16 text-left border-b border-r border-[var(--color-border)] bg-[var(--color-bg-muted)] sticky left-0 z-20 min-w-240">
-              <span className="type-label">Competency Signals</span>
-            </th>
-            {stages.map((stage, idx) => (
-              <th key={stage.instanceId} className="p-16 text-center border-b border-[var(--color-border)] bg-[var(--color-bg-muted)] min-w-140">
-                <div className="flex flex-col items-center gap-4">
-                  <span className="type-meta opacity-60 uppercase text-[10px] tracking-widest">Stage {idx + 1}</span>
-                  <span className="type-card-title truncate max-w-120">{stage.label || stage.typeId}</span>
-                </div>
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {allSignals.map((signal) => (
-            <tr key={signal.id} className="group hover:bg-[var(--color-bg-muted)]/50 transition-colors">
-              <td className="p-16 border-b border-r border-[var(--color-border)] bg-[var(--color-bg-subtle)] sticky left-0 z-10 group-hover:bg-[var(--color-bg-muted)] transition-colors">
-                <div className="flex items-center gap-12">
-                  <div className="w-24 h-24 rounded flex items-center justify-center bg-[var(--color-bg-muted)] text-[var(--color-fg-tertiary)] group-hover:bg-[var(--color-primary-subtle)] group-hover:text-[var(--color-primary)] transition-colors">
-                    <signal.icon size={14} />
-                  </div>
-                  <div>
-                    <p className="type-body font-medium leading-none">{signal.label}</p>
-                    <p className="text-[11px] opacity-60 mt-4 uppercase tracking-wide">{signal.category}</p>
-                  </div>
-                </div>
-              </td>
-              {stages.map((stage) => {
-                const isActive = (stage.competencies || []).includes(signal.id)
-                return (
-                  <td 
-                    key={`${stage.instanceId}-${signal.id}`} 
-                    className="p-0 border-b border-[var(--color-border)] text-center relative"
-                  >
-                    <button
-                      onClick={() => onToggleSignal(stage.instanceId, signal.id)}
-                      className={`w-full h-64 flex items-center justify-center transition-all ${
-                        isActive 
-                        ? 'bg-[var(--color-primary-subtle)]/30 text-[var(--color-primary)]' 
-                        : 'text-transparent hover:text-[var(--color-fg-tertiary)]/20'
-                      }`}
-                    >
-                      <div className={`w-32 h-32 rounded-lg border-2 flex items-center justify-center transition-all ${
-                        isActive 
-                        ? 'border-[var(--color-primary)] bg-[var(--color-primary)] text-[var(--color-primary-fg)] shadow-sm' 
-                        : 'border-transparent group-hover:border-[var(--color-border-strong)]'
-                      }`}>
-                        <Check size={16} strokeWidth={3} className={isActive ? 'scale-100' : 'scale-0 transition-transform'} />
-                      </div>
-                    </button>
-                  </td>
-                )
-              })}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      
-      {/* ── Matrix Legend ────────────────────────────────────────── */}
-      <div className="p-16 bg-[var(--color-bg-muted)]/30 border-t border-[var(--color-border)] flex items-center justify-between">
-        <div className="flex items-center gap-24">
-          <div className="flex items-center gap-8">
-            <div className="w-12 h-12 rounded bg-[var(--color-primary)]"></div>
-            <span className="type-meta">Signal Assigned</span>
-          </div>
-          <div className="flex items-center gap-8">
-            <div className="w-12 h-12 rounded border-2 border-[var(--color-border-strong)]"></div>
-            <span className="type-meta">Untracked</span>
-          </div>
-        </div>
-        <div className="flex items-center gap-8 text-[var(--color-fg-tertiary)] cursor-help">
-          <Info size={14} />
-          <span className="type-meta italic">Signals tagged in live interviews will populate the Tufte Sparkline.</span>
-        </div>
+  if (stages.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center py-48 text-center gap-8">
+        <p className="type-body font-medium">No stages yet</p>
+        <p className="type-meta">Add stages to start assigning signals.</p>
       </div>
+    )
+  }
+
+  const categories = [...new Set(competencies.map(c => c.category))]
+
+  return (
+    <div className="flex flex-col gap-12">
+      {/* Column headers -- stage icons with tooltip */}
+      <div className="grid items-end gap-4" style={{ gridTemplateColumns: `1fr repeat(${stages.length}, 44px)` }}>
+        <div />
+        {stages.map((stage, idx) => {
+          const type = getStageType(stage.typeId)
+          if (!type) return null
+          const Icon = type.icon
+          return (
+            <div
+              key={stage.instanceId}
+              className="flex flex-col items-center gap-4 p-4 cursor-default"
+              title={`Stage ${idx + 1}: ${type.label}`}
+              aria-label={`Stage ${idx + 1}: ${type.label}`}
+            >
+              <Icon size={16} style={{ color: type.color }} weight="duotone" />
+              <span className="type-meta text-[10px] leading-none">{idx + 1}</span>
+            </div>
+          )
+        })}
+      </div>
+
+      {/* Signal rows grouped by category */}
+      {categories.map(category => {
+        const signals = competencies.filter(c => c.category === category)
+        return (
+          <div key={category} className="flex flex-col gap-4">
+            <p className="type-meta opacity-50 uppercase text-[10px] tracking-widest pl-4 mb-2">{category}</p>
+            {signals.map(signal => {
+              const Icon = signal.icon
+              const assignedCount = stages.filter(s => (s.competencies || []).includes(signal.id)).length
+              const hasCoverage = assignedCount > 0
+              return (
+                <div
+                  key={signal.id}
+                  className="grid items-center gap-4"
+                  style={{ gridTemplateColumns: `1fr repeat(${stages.length}, 44px)` }}
+                >
+                  {/* Signal badge + coverage count */}
+                  <div className="flex items-center gap-8 min-w-0">
+                    <div className="signal-badge" style={{ '--signal-color': signal.color }}>
+                      <Icon size={14} style={{ color: signal.color }} weight="fill" />
+                      <span className="truncate" style={{ color: signal.color }}>{signal.label}</span>
+                    </div>
+                    <span className={`type-meta text-[10px] ml-auto flex-shrink-0 tabular-nums ${hasCoverage ? 'opacity-40' : 'text-[var(--color-fg-tertiary)]'}`}>
+                      {assignedCount}/{stages.length}
+                    </span>
+                  </div>
+
+                  {/* Checkboxes per stage */}
+                  {stages.map(stage => {
+                    const isActive = (stage.competencies || []).includes(signal.id)
+                    return (
+                      <div key={`${stage.instanceId}-${signal.id}`} className="flex items-center justify-center">
+                        <button
+                          onClick={() => onToggleSignal(stage.instanceId, signal.id)}
+                          className="signal-check"
+                          data-checked={isActive}
+                          style={{ '--signal-color': signal.color }}
+                          title={`${isActive ? 'Remove' : 'Assign'} ${signal.label}`}
+                          aria-label={`${isActive ? 'Remove' : 'Assign'} ${signal.label} for stage ${stages.indexOf(stage) + 1}`}
+                        >
+                          <svg viewBox="0 0 12 10" fill="none" aria-hidden="true">
+                            <path
+                              d="M1 5L4.5 8.5L11 1"
+                              stroke={signal.color}
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                    )
+                  })}
+                </div>
+              )
+            })}
+          </div>
+        )
+      })}
+
+      {/* Gap warning */}
+      {(() => {
+        const uncovered = competencies.filter(
+          c => !stages.some(s => (s.competencies || []).includes(c.id))
+        )
+        if (uncovered.length === 0 || uncovered.length === competencies.length) return null
+        return (
+          <div className="flex items-start gap-8 p-12 rounded-lg bg-[var(--color-warning)]/8 border border-[var(--color-warning)]/20 mt-4">
+            <span className="type-meta text-[var(--color-warning)] leading-snug">
+              {uncovered.length} signal{uncovered.length > 1 ? 's' : ''} untracked across all stages.
+            </span>
+          </div>
+        )
+      })()}
     </div>
   )
 }

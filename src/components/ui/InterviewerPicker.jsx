@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { ChevronDown, X } from 'lucide-react'
+import { CaretDown, X } from '@phosphor-icons/react'
 import { interviewers } from '../../data/stages'
 
 export default function InterviewerPicker({
@@ -59,8 +59,9 @@ export default function InterviewerPicker({
             onClick={() => setOpen((prev) => !prev)}
           >
             <span>Add interviewer</span>
-            <ChevronDown
+            <CaretDown
               size={14}
+              weight="regular"
               className="text-[var(--color-fg-tertiary)]"
               style={{
                 transform: open ? 'rotate(180deg)' : 'none',

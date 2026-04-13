@@ -1,13 +1,14 @@
 import { useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd'
-import { ArrowRight, Layers, Plus } from 'lucide-react'
+import { ArrowRight, Stack, Plus } from '@phosphor-icons/react'
 import PageHeader from '../components/layout/PageHeader'
 import FlowStepper from '../components/ui/FlowStepper'
 import StageListCard from '../components/ui/StageListCard'
 import StageConnector, { AddStageButton } from '../components/ui/StageConnector'
 import StageAddPopover from '../components/ui/StageAddPopover'
 import ConfigDrawer from '../components/ui/ConfigDrawer'
+import SignalMatrix from '../components/ui/SignalMatrix'
 import TemplateSelector from '../components/ui/TemplateSelector'
 import { createStageInstance } from '../data/stages'
 
@@ -16,6 +17,7 @@ export default function Builder() {
   const [stages, setStages] = useState([])
   const [selectedId, setSelectedId] = useState(null)
   const [showAddPopover, setShowAddPopover] = useState(false)
+  const [rightTab, setRightTab] = useState('details')
 
   const selectedStage = stages.find((s) => s.instanceId === selectedId)
 
@@ -77,6 +79,21 @@ export default function Builder() {
     )
   }, [])
 
+  const toggleSignal = useCallback((instanceId, signalId) => {
+    setStages((prev) =>
+      prev.map((s) => {
+        if (s.instanceId !== instanceId) return s
+        const has = (s.competencies || []).includes(signalId)
+        return {
+          ...s,
+          competencies: has
+            ? s.competencies.filter((id) => id !== signalId)
+            : [...(s.competencies || []), signalId],
+        }
+      })
+    )
+  }, [])
+
   function handleDragEnd(result) {
     if (!result.destination) return
     const from = result.source.index
@@ -97,12 +114,8 @@ export default function Builder() {
       </PageHeader>
 
       <main className="page-content">
-        <div className="flex flex-col gap-6 mb-24">
+        <div className="mb-24">
           <h2 className="type-section-heading">Create Interview Template</h2>
-          <p className="type-body-secondary max-w-640">
-            Build your interview pipeline by adding stages. Each stage holds unique 
-            configurations for duration, interviewers, and scorecard criteria.
-          </p>
         </div>
 
         <div className="mb-24">
@@ -123,7 +136,7 @@ export default function Builder() {
             <div className="bg-[var(--color-bg-subtle)] border border-[var(--color-border)] rounded-xl p-24">
               {stages.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-48 text-center gap-12">
-                  <Layers size={32} className="text-[var(--color-fg-tertiary)] opacity-40" />
+                  <Stack size={32} weight="regular" className="text-[var(--color-fg-tertiary)] opacity-40" />
                   <p className="type-body font-medium">No stages yet</p>
                   <button className="btn btn-accent btn-sm mt-4" onClick={() => setShowAddPopover(true)}>
                     <Plus size={14} /> Add your first stage
@@ -151,7 +164,7 @@ export default function Builder() {
                                   index={index}
                                   isSelected={selectedId === stage.instanceId}
                                   isDragging={snapshot.isDragging}
-                                  onClick={setSelectedId}
+                                  onClick={(id) => setSelectedId(prev => prev === id ? null : id)}
                                   onRemove={() => removeStage(stage.instanceId)}
                                   onDuplicate={() => duplicateStage(stage.instanceId)}
                                   onMoveUp={() => moveStage(stage.instanceId, -1)}
@@ -176,20 +189,60 @@ export default function Builder() {
             </div>
           </div>
 
-          {/* Config: fixed width, only visible when a stage is selected */}
-          {selectedStage && (
-            <div className="w-400 flex-shrink-0 sticky top-80">
-              <div className="flex items-center justify-between mb-12">
-                <p className="type-label">Stage Config</p>
-              </div>
-              <ConfigDrawer
-                stage={selectedStage}
-                onClose={() => setSelectedId(null)}
-                onUpdate={updateStage}
-                variant="embedded"
-              />
+          {/* Right panel: segmented control (Details / Signals) */}
+          <div className="w-400 flex-shrink-0 sticky top-80">
+            <div className="flex items-center justify-between mb-12">
+              <p className="type-label">Stage Anatomy & Config</p>
             </div>
-          )}
+
+            {/* Segmented control */}
+            <div className="flex gap-2 p-2 bg-[var(--color-bg-muted)] rounded-lg mb-12">
+              <button
+                className={`flex-1 px-12 py-6 rounded-md text-[13px] font-medium transition-colors ${
+                  rightTab === 'details'
+                    ? 'bg-[var(--color-surface)] text-[var(--color-fg-primary)] shadow-xs'
+                    : 'text-[var(--color-fg-tertiary)] hover:text-[var(--color-fg-secondary)]'
+                }`}
+                onClick={() => setRightTab('details')}
+              >
+                Details
+              </button>
+              <button
+                className={`flex-1 px-12 py-6 rounded-md text-[13px] font-medium transition-colors ${
+                  rightTab === 'signals'
+                    ? 'bg-[var(--color-surface)] text-[var(--color-fg-primary)] shadow-xs'
+                    : 'text-[var(--color-fg-tertiary)] hover:text-[var(--color-fg-secondary)]'
+                }`}
+                onClick={() => setRightTab('signals')}
+              >
+                Signals
+              </button>
+            </div>
+
+            {/* Tab content */}
+            <div className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl overflow-hidden">
+              {rightTab === 'details' ? (
+                selectedStage ? (
+                  <ConfigDrawer
+                    stage={selectedStage}
+                    onClose={() => setSelectedId(null)}
+                    onUpdate={updateStage}
+                    variant="embedded"
+                  />
+                ) : (
+                  <div className="flex flex-col items-center justify-center py-48 text-center gap-8 px-24">
+                    <ArrowRight size={28} className="text-[var(--color-fg-tertiary)] opacity-30" />
+                    <p className="type-body font-medium">Select a stage to configure</p>
+                    <p className="type-meta">Define interviewers, duration,<br />and scorecard criteria.</p>
+                  </div>
+                )
+              ) : (
+                <div className="p-20">
+                  <SignalMatrix stages={stages} onToggleSignal={toggleSignal} />
+                </div>
+              )}
+            </div>
+          </div>
         </div>
 
         {/* Footer Actions */}

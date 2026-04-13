@@ -1,4 +1,4 @@
-import { Plus, X } from 'lucide-react'
+import { Plus, X } from '@phosphor-icons/react'
 import { useState } from 'react'
 import { competencies } from '../../data/mock'
 
@@ -15,7 +15,7 @@ export default function CompetencyPicker({ assignedIds = [], onAdd, onRemove }) 
           const Icon = comp.icon
           return (
             <div key={id} className="badge badge-primary gap-6 pr-4 group">
-              <Icon size={12} strokeWidth={2} />
+              <Icon size={14} weight="fill" />
               {comp.label}
               <button
                 onClick={() => onRemove(id)}
@@ -53,7 +53,7 @@ export default function CompetencyPicker({ assignedIds = [], onAdd, onRemove }) 
                   }}
                 >
                   <div className="w-24 h-24 rounded bg-[var(--color-bg-muted)] flex items-center justify-center text-[var(--color-fg-tertiary)] group-hover:bg-[var(--color-primary-subtle)] group-hover:text-[var(--color-primary)]">
-                    <Icon size={14} />
+                    <Icon size={14} weight="fill" />
                   </div>
                   <div className="flex-1 text-left">
                     <p className="text-[13px] font-medium">{comp.label}</p>

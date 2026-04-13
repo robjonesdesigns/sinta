@@ -1,10 +1,8 @@
-import { X } from 'lucide-react'
-import { FileText, ClipboardList } from 'lucide-react'
+import { X, FileText, ClipboardText } from '@phosphor-icons/react'
 import { getStageType } from '../../data/stages'
 import InterviewerPicker from './InterviewerPicker'
 import DurationPicker from './DurationPicker'
 import SelectPicker from './SelectPicker'
-import CompetencyPicker from './CompetencyPicker'
 
 const questionSetOptions = [
   {
@@ -74,20 +72,6 @@ export default function ConfigDrawer({ stage, onClose, onUpdate, variant = 'draw
     })
   }
 
-  function handleAddCompetency(id) {
-    onUpdate({
-      ...stage,
-      competencies: [...(stage.competencies || []), id]
-    })
-  }
-
-  function handleRemoveCompetency(id) {
-    onUpdate({
-      ...stage,
-      competencies: (stage.competencies || []).filter(c => c !== id)
-    })
-  }
-
   function handleQuestionSetChange(value) {
     onUpdate({ ...stage, questionSet: value })
   }
@@ -99,14 +83,14 @@ export default function ConfigDrawer({ stage, onClose, onUpdate, variant = 'draw
   const isEmbedded = variant === 'embedded'
 
   return (
-    <div className={isEmbedded ? 'bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl overflow-hidden' : 'config-drawer'}>
+    <div className={isEmbedded ? '' : 'config-drawer'}>
       <div className="config-drawer-header">
         <div className="flex items-center gap-12">
           <div
             className="stage-icon-box"
             style={{ '--stage-color': type.color }}
           >
-            <Icon size={18} style={{ color: type.color }} strokeWidth={1.75} />
+            <Icon size={18} style={{ color: type.color }} weight="duotone" />
           </div>
           <div>
             <h3 className="text-[var(--font-size-md)] font-semibold leading-none">
@@ -129,14 +113,6 @@ export default function ConfigDrawer({ stage, onClose, onUpdate, variant = 'draw
       <div className="config-drawer-body">
         <div className="grid grid-cols-1 gap-24">
           <section>
-            <p className="config-field-label">Duration & Timing</p>
-            <DurationPicker
-              value={stage.duration}
-              onChange={handleDurationChange}
-            />
-          </section>
-
-          <section>
             <p className="config-field-label">Interviewers</p>
             <p className="type-meta mb-12">Assign team members to this stage.</p>
             <InterviewerPicker
@@ -147,12 +123,10 @@ export default function ConfigDrawer({ stage, onClose, onUpdate, variant = 'draw
           </section>
 
           <section>
-            <p className="config-field-label">Interview Tags</p>
-            <p className="type-meta mb-12">Competencies interviewers can tag in real-time during this stage.</p>
-            <CompetencyPicker
-              assignedIds={stage.competencies || []}
-              onAdd={handleAddCompetency}
-              onRemove={handleRemoveCompetency}
+            <p className="config-field-label">Duration</p>
+            <DurationPicker
+              value={stage.duration}
+              onChange={handleDurationChange}
             />
           </section>
 
@@ -175,7 +149,7 @@ export default function ConfigDrawer({ stage, onClose, onUpdate, variant = 'draw
                 onChange={handleScorecardChange}
                 options={scorecardOptions}
                 placeholder="Select scorecard"
-                icon={ClipboardList}
+                icon={ClipboardText}
               />
             </div>
           </section>

@@ -2,14 +2,14 @@ import PageHeader from '../components/layout/PageHeader'
 import { stageTypes } from '../data/stages'
 import {
   Check,
-  AlertCircle,
+  WarningCircle,
   ArrowRight,
   Plus,
-  Search,
+  MagnifyingGlass,
   Clock,
   Users,
   Star,
-} from 'lucide-react'
+} from '@phosphor-icons/react'
 
 export default function DesignSystem() {
   return (
@@ -252,10 +252,10 @@ function ComponentSection() {
             <span className="badge badge-neutral">Neutral</span>
             <span className="badge badge-primary">Primary</span>
             <span className="badge badge-success">
-              <Check size={11} strokeWidth={2.5} /> Success
+              <Check size={11} weight="bold" /> Success
             </span>
             <span className="badge badge-warning">
-              <AlertCircle size={11} /> Warning
+              <WarningCircle size={11} weight="regular" /> Warning
             </span>
             <span className="badge badge-danger">Danger</span>
           </div>
@@ -265,9 +265,10 @@ function ComponentSection() {
           <div className="flex flex-col gap-8 max-w-320">
             <input className="input" placeholder="Default input" />
             <div className="relative">
-              <Search
+              <MagnifyingGlass
                 className="absolute left-10 top-1/2 -translate-y-1/2 text-[var(--color-fg-tertiary)]"
                 size={16}
+                weight="regular"
               />
               <input className="input pl-34" placeholder="With icon" />
             </div>
@@ -294,11 +295,11 @@ function ComponentSection() {
         <ComponentGroup label="Status Pills">
           <div className="flex items-center gap-12">
             <span className="inline-flex items-center gap-4 px-8 py-2 rounded-full text-[var(--font-size-xs)] font-medium bg-[var(--color-success-subtle)] text-[var(--color-success)]">
-              <Check size={11} strokeWidth={2.5} />
+              <Check size={11} weight="bold" />
               Ready
             </span>
             <span className="inline-flex items-center gap-4 px-8 py-2 rounded-full text-[var(--font-size-xs)] font-medium bg-[var(--color-warning-subtle)] text-[var(--color-warning)]">
-              <AlertCircle size={11} strokeWidth={2} />
+              <WarningCircle size={11} weight="regular" />
               Setup
             </span>
           </div>
@@ -338,7 +339,7 @@ function ComponentSection() {
                     <Icon
                       size={18}
                       style={{ color: stage.color }}
-                      strokeWidth={1.75}
+                      weight="duotone"
                     />
                   </div>
                   <span className="type-meta">{stage.label}</span>
@@ -356,10 +357,10 @@ function ComponentSection() {
 
 function IconSection() {
   const icons = [
-    { Icon: Search, name: 'Search' },
+    { Icon: MagnifyingGlass, name: 'MagnifyingGlass' },
     { Icon: Plus, name: 'Plus' },
     { Icon: Check, name: 'Check' },
-    { Icon: AlertCircle, name: 'AlertCircle' },
+    { Icon: WarningCircle, name: 'WarningCircle' },
     { Icon: ArrowRight, name: 'ArrowRight' },
     { Icon: Clock, name: 'Clock' },
     { Icon: Users, name: 'Users' },
@@ -369,7 +370,7 @@ function IconSection() {
   return (
     <Section title="Icons">
       <p className="type-body-secondary mb-16">
-        Lucide React. strokeWidth 1.75 for navigation, 2 for UI elements.
+        Phosphor Icons. weight="regular" for UI chrome, weight="duotone" for stage/signal icons.
       </p>
       <div className="flex flex-wrap gap-16">
         {icons.map(({ Icon, name }) => (
@@ -377,7 +378,7 @@ function IconSection() {
             key={name}
             className="flex flex-col items-center gap-6 p-12 rounded-lg border border-[var(--color-border-subtle)] w-80"
           >
-            <Icon size={20} strokeWidth={1.75} />
+            <Icon size={20} weight="regular" />
             <span className="type-meta">{name}</span>
           </div>
         ))}

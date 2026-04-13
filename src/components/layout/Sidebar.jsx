@@ -1,25 +1,25 @@
 import { useLocation, Link } from 'react-router-dom'
 import {
-  LayoutDashboard,
-  CalendarDays,
-  Video,
-  ClipboardCheck,
-  BarChart3,
+  SquaresFour,
+  Calendar,
+  VideoCamera,
+  ClipboardText,
+  ChartBar,
   Users,
-  Settings,
+  Gear,
   Sun,
   Moon,
   Palette,
-} from 'lucide-react'
+} from '@phosphor-icons/react'
 import { useTheme } from '../../hooks/useTheme'
 
 const navItems = [
-  { to: '/', icon: LayoutDashboard, label: 'Dashboard' },
-  { to: '/builder', icon: ClipboardCheck, label: 'Interview Builder' },
-  { to: '/scheduling', icon: CalendarDays, label: 'Scheduling' },
-  { to: '/interview', icon: Video, label: 'Live Interview' },
-  { to: '/review', icon: ClipboardCheck, label: 'Post-Interview' },
-  { to: '/scorecard', icon: BarChart3, label: 'Scorecard' },
+  { to: '/', icon: SquaresFour, label: 'Dashboard' },
+  { to: '/builder', icon: ClipboardText, label: 'Interview Builder' },
+  { to: '/scheduling', icon: Calendar, label: 'Scheduling' },
+  { to: '/interview', icon: VideoCamera, label: 'Live Interview' },
+  { to: '/review', icon: ClipboardText, label: 'Post-Interview' },
+  { to: '/scorecard', icon: ChartBar, label: 'Scorecard' },
   { to: '/candidates', icon: Users, label: 'Candidates' },
 ]
 
@@ -49,7 +49,7 @@ export default function Sidebar() {
               to={to}
               className={`sidebar-item ${isActive ? 'sidebar-item-active' : ''}`}
             >
-              <Icon className="sidebar-icon" strokeWidth={1.75} />
+              <Icon className="sidebar-icon" weight="regular" />
               <span className="sidebar-label">{label}</span>
             </Link>
           )
@@ -59,18 +59,18 @@ export default function Sidebar() {
       {/* Footer */}
       <div className="border-t border-[var(--color-sidebar-border)] py-8">
         <Link to="/design-system" className="sidebar-item">
-          <Palette className="sidebar-icon" strokeWidth={1.75} />
+          <Palette className="sidebar-icon" weight="regular" />
           <span className="sidebar-label">Design System</span>
         </Link>
         <Link to="/settings" className="sidebar-item">
-          <Settings className="sidebar-icon" strokeWidth={1.75} />
+          <Gear className="sidebar-icon" weight="regular" />
           <span className="sidebar-label">Settings</span>
         </Link>
         <button onClick={toggle} className="sidebar-item">
           {theme === 'dark' ? (
-            <Sun className="sidebar-icon" strokeWidth={1.75} />
+            <Sun className="sidebar-icon" weight="regular" />
           ) : (
-            <Moon className="sidebar-icon" strokeWidth={1.75} />
+            <Moon className="sidebar-icon" weight="regular" />
           )}
           <span className="sidebar-label">
             {theme === 'dark' ? 'Light mode' : 'Dark mode'}

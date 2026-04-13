@@ -1,4 +1,4 @@
-import { X } from 'lucide-react'
+import { X } from '@phosphor-icons/react'
 
 export default function TimelineNode({ stage, onRemove, onClick, isSelected }) {
   const Icon = stage.icon
@@ -11,7 +11,7 @@ export default function TimelineNode({ stage, onRemove, onClick, isSelected }) {
         style={{ '--node-color': stage.color }}
         aria-label={`${stage.label} stage`}
       >
-        <Icon size={18} className="text-white" strokeWidth={2} />
+        <Icon size={18} className="text-white" weight="duotone" />
       </button>
       <span className="text-[var(--font-size-xs)] text-[var(--color-fg-secondary)] whitespace-nowrap">
         {stage.label}
@@ -25,7 +25,7 @@ export default function TimelineNode({ stage, onRemove, onClick, isSelected }) {
           className="absolute -top-4 -right-4 w-16 h-16 flex items-center justify-center rounded-full bg-[var(--color-surface-overlay)] border border-[var(--color-border)] text-[var(--color-fg-tertiary)] hover:text-[var(--color-danger)] hover:border-[var(--color-danger)] transition-colors"
           aria-label={`Remove ${stage.label}`}
         >
-          <X size={10} strokeWidth={2.5} />
+          <X size={10} weight="bold" />
         </button>
       )}
     </div>

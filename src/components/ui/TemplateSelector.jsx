@@ -1,5 +1,5 @@
 import { templates, getStageType } from '../../data/stages'
-import { Zap } from 'lucide-react'
+import { Lightning } from '@phosphor-icons/react'
 
 export default function TemplateSelector({ onSelect }) {
   return (
@@ -11,7 +11,7 @@ export default function TemplateSelector({ onSelect }) {
           className="template-btn"
         >
           <div className="flex items-center gap-8">
-            <Zap size={13} className="text-[var(--color-primary)]" strokeWidth={2} />
+            <Lightning size={13} className="text-[var(--color-primary)]" weight="regular" />
             <span className="font-medium">{template.label}</span>
           </div>
           <div className="flex items-center gap-4 mt-6">
@@ -26,7 +26,7 @@ export default function TemplateSelector({ onSelect }) {
                   style={{ background: type.color, opacity: 0.15 }}
                   title={type.label}
                 >
-                  <Icon size={11} style={{ color: type.color }} strokeWidth={2} />
+                  <Icon size={11} style={{ color: type.color }} weight="duotone" />
                 </div>
               )
             })}

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { ChevronDown, Check } from 'lucide-react'
+import { CaretDown, Check } from '@phosphor-icons/react'
 
 export default function SelectPicker({
   value,
@@ -41,15 +41,16 @@ export default function SelectPicker({
             <Icon
               size={14}
               className="text-[var(--color-fg-tertiary)]"
-              strokeWidth={1.75}
+              weight="regular"
             />
           )}
           <span className={selected ? '' : 'text-[var(--color-fg-tertiary)]'}>
             {selected ? selected.label : placeholder}
           </span>
         </div>
-        <ChevronDown
+        <CaretDown
           size={14}
+          weight="regular"
           className="text-[var(--color-fg-tertiary)]"
           style={{
             transform: open ? 'rotate(180deg)' : 'none',
@@ -81,7 +82,7 @@ export default function SelectPicker({
                 <Check
                   size={14}
                   className="text-[var(--color-primary)] flex-shrink-0"
-                  strokeWidth={2}
+                  weight="regular"
                 />
               )}
             </button>

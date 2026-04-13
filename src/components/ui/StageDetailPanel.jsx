@@ -1,4 +1,4 @@
-import { X, UserPlus, Clock, FileText } from 'lucide-react'
+import { X, UserPlus, Clock, FileText } from '@phosphor-icons/react'
 import { interviewers } from '../../data/stages'
 
 export default function StageDetailPanel({ stage, onClose }) {
@@ -13,7 +13,7 @@ export default function StageDetailPanel({ stage, onClose }) {
             className="flex items-center justify-center w-28 h-28 rounded-md"
             style={{ background: stage.color, opacity: 0.9 }}
           >
-            <Icon size={15} className="text-white" strokeWidth={2} />
+            <Icon size={15} className="text-white" weight="duotone" />
           </div>
           <h3 className="text-[var(--font-size-md)] font-semibold">
             {stage.label}

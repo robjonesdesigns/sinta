@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { Clock, ChevronDown, Check } from 'lucide-react'
+import { Clock, CaretDown, Check } from '@phosphor-icons/react'
 
 const durations = [15, 30, 45, 60, 90, 120]
 
@@ -31,11 +31,12 @@ export default function DurationPicker({ value, onChange }) {
         type="button"
       >
         <div className="flex items-center gap-8">
-          <Clock size={14} className="text-[var(--color-fg-tertiary)]" strokeWidth={1.75} />
+          <Clock size={14} className="text-[var(--color-fg-tertiary)]" weight="regular" />
           <span>{value} min</span>
         </div>
-        <ChevronDown
+        <CaretDown
           size={14}
+          weight="regular"
           className="text-[var(--color-fg-tertiary)]"
           style={{
             transform: open ? 'rotate(180deg)' : 'none',
@@ -57,7 +58,7 @@ export default function DurationPicker({ value, onChange }) {
             >
               <span>{d} min</span>
               {d === value && (
-                <Check size={14} className="text-[var(--color-primary)]" strokeWidth={2} />
+                <Check size={14} className="text-[var(--color-primary)]" weight="regular" />
               )}
             </button>
           ))}
