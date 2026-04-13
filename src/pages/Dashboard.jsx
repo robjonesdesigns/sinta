@@ -12,7 +12,7 @@ export default function Dashboard() {
         </div>
 
         <section className="mt-24">
-          <h2 className="text-[var(--font-size-md)] font-semibold mb-12">
+          <h2 className="type-section-heading mb-12">
             Recent Activity
           </h2>
           <div className="card">
@@ -56,8 +56,8 @@ export default function Dashboard() {
 function StatCard({ label, value }) {
   return (
     <div className="card-raised p-20">
-      <p className="section-label mb-4">{label}</p>
-      <p className="text-[var(--font-size-3xl)] font-semibold">{value}</p>
+      <p className="type-label mb-4">{label}</p>
+      <p className="type-stat">{value}</p>
     </div>
   )
 }
@@ -72,12 +72,12 @@ const statusStyles = {
 function ActivityRow({ name, type, status, date }) {
   return (
     <div className="table-row grid-cols-[1fr_1fr_120px_100px]">
-      <span className="font-medium">{name}</span>
-      <span className="text-[var(--color-fg-secondary)]">{type}</span>
+      <span className="type-card-title">{name}</span>
+      <span className="type-body-secondary">{type}</span>
       <span>
         <span className={`badge ${statusStyles[status]}`}>{status}</span>
       </span>
-      <span className="text-[var(--color-fg-tertiary)]">{date}</span>
+      <span className="type-meta">{date}</span>
     </div>
   )
 }

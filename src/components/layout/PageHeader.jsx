@@ -3,7 +3,7 @@ import { Search } from 'lucide-react'
 export default function PageHeader({ title, children }) {
   return (
     <header className="page-header">
-      <h1 className="text-[var(--font-size-xl)] font-semibold">{title}</h1>
+      <h1 className="type-page-title">{title}</h1>
       <div className="flex items-center gap-12">
         <div className="relative">
           <Search

@@ -98,10 +98,10 @@ export default function Builder() {
       <main className="page-content">
         <div className="builder-container">
           <div className="flex flex-col gap-6 mb-20">
-            <h2 className="text-[var(--font-size-lg)] font-semibold">
+            <h2 className="type-section-heading">
               Create Interview Template
             </h2>
-            <p className="text-[var(--color-fg-secondary)]">
+            <p className="type-body-secondary">
               Build your interview pipeline by adding stages. Click a stage to
               configure interviewers, questions, and scorecards.
             </p>

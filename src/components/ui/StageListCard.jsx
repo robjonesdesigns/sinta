@@ -50,7 +50,7 @@ export default function StageListCard({
       </div>
 
       <div className="flex-1 min-w-0">
-        <p className="text-[var(--font-size-base)] font-semibold leading-tight">
+        <p className="type-card-title">
           {type.label}
         </p>
         <div className="flex items-center gap-10 mt-4">

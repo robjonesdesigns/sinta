@@ -33,7 +33,7 @@ export default function Sidebar() {
         <div className="flex items-center justify-center w-24 h-24 rounded-md bg-[var(--color-primary)] text-[var(--color-primary-fg)] font-semibold text-[var(--font-size-md)] flex-shrink-0">
           S
         </div>
-        <span className="sidebar-label font-semibold text-[var(--color-sidebar-fg-active)] text-[var(--font-size-md)]">
+        <span className="sidebar-label text-[var(--color-sidebar-fg-active)] text-[var(--font-size-md)]" style={{ fontFamily: 'var(--font-family-display)', fontWeight: 700, letterSpacing: '-0.01em' }}>
           Sinta
         </span>
       </div>
