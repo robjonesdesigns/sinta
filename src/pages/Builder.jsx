@@ -243,9 +243,11 @@ export default function Builder() {
                     variant="embedded"
                   />
                 ) : (
-                  <div className="flex flex-col items-center justify-center py-48 text-center gap-8 px-24">
-                    <p className="type-body font-medium">Select a stage to configure</p>
-                    <p className="type-meta">Define interviewers, duration,<br />and scorecard template.</p>
+                  <div className="p-20">
+                    <div className="flex flex-col items-center justify-center py-48 text-center gap-8 px-24">
+                      <p className="type-body font-medium">Select a stage to configure</p>
+                      <p className="type-meta">Define interviewers, duration,<br />and scorecard template.</p>
+                    </div>
                   </div>
                 )
               ) : (
