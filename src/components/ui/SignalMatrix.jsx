@@ -39,11 +39,11 @@ export default function SignalMatrix({ stages, onToggleSignal }) {
 
       {/* Signal rows grouped by category */}
       {categories.map(category => {
-        const signals = signals.filter(c => c.category === category)
+        const categorySignals = signals.filter(c => c.category === category)
         return (
           <div key={category} className="flex flex-col gap-4">
             <p className="type-meta opacity-50 uppercase text-[10px] tracking-widest pl-4 mb-2">{category}</p>
-            {signals.map(signal => {
+            {categorySignals.map(signal => {
               const Icon = signal.icon
               const assignedCount = stages.filter(s => (s.signals || []).includes(signal.id)).length
               const hasCoverage = assignedCount > 0
