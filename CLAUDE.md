@@ -29,10 +29,10 @@ All code generation must adhere to VECTOR.md. Before writing code:
 | Routing | React Router 7 (BrowserRouter, SPA mode) |
 | Build | Vite 8 with @vitejs/plugin-react |
 | Styling | Tailwind CSS v4 via @tailwindcss/vite |
-| Icons | Lucide React (strokeWidth 1.75 for nav, 2 for UI) |
+| Icons | Phosphor Icons (fill for signals, duotone for stages, regular for UI chrome) |
 | State | React useState/useCallback (no external library) |
-| Data | Static JSON in src/data/ (no backend) |
-| Fonts | Inter (system fallback stack) |
+| Data | Static JSON in src/data/ (no backend), persisted to localStorage for Builder |
+| Fonts | Clash Grotesk (display), Inter (body) |
 | Linting | ESLint 9 (flat config) |
 
 ---
@@ -55,7 +55,18 @@ The live interview screen prioritizes the video call. One-tap shortcut buttons f
 - `@tailwindcss/vite` in vite.config.js -- no tailwind.config.js
 - `--spacing: 1px` in @theme -- numeric utilities map 1:1 to pixels (gap-8 = 8px)
 - `@layer base` for resets (critical -- unlayered resets override Tailwind utilities)
-- 30+ component classes in @layer components (btn variants, card, input, badge, table-row, sidebar, etc.)
+- 30+ component classes in @layer components (btn variants, card, input, badge, table-row, sidebar, signal-check, signal-badge, etc.)
+
+### Color system (ADR-003: Saturation Split)
+- **Stage type colors** (muted, ~30% saturation): `--color-stage-screening`, `-single`, `-panel`, `-debrief`, `-assessment`, `-presentation`, `-case-study`. Structural, categorical.
+- **Signal category colors** (vivid, ~70% saturation): `--color-signal-technical` (blue), `-behavioral` (amber), `-values` (green), `-risk` (red). Semantic, evaluative.
+- Semantic tokens (`--color-success`, `--color-danger`, etc.) are NOT used for categorical encoding. They are reserved for system status (form validation, toasts).
+- Full rationale in `vector/decisions/ADR-003-color-system-strategy.md`.
+
+### Terminology
+- **Signal** is the canonical term for interview reaction tags (not "competency" or "interview tag")
+- Data layer uses `signals` (mock.js export, stage instance field)
+- UI uses "Signal" (tab label, matrix, badges, empty states)
 
 ### Dark/light mode
 - CSS custom properties on `:root` (light) and `.dark` (dark)
